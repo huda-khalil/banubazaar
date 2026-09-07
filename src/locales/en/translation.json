@@ -1,0 +1,150 @@
+{
+  "nav": {
+    "home": "Home",
+    "sell": "Sell",
+    "admin": "Admin"
+  },
+  "landing": {
+    "welcomeBefore": "Welcome to ",
+    "welcomeAfter": "",
+    "tagline": "Sell what you don't need. Buy what you LOVE!",
+    "taglineExtra1": "Don't let your beautiful things gather dust. Give them a new story.",
+    "taglineExtra2": "Afghan women don't waste — we reimagine.",
+    "subtitle": "Kabul's Marketplace for Women",
+    "startSelling": "Start Selling",
+    "browseItems": "Browse Items"
+  },
+  "home": {
+    "title": "Browse Items",
+    "categories": {
+      "all": "All",
+      "clothing": "Clothing",
+      "electronics": "Electronics",
+      "home": "Home Goods",
+      "books": "Books",
+      "other": "Other"
+    },
+    "noItems": "No items available in this category yet.",
+    "beFirst": "Be the first to sell!",
+    "loading": "Loading items...",
+    "howItWorks": {
+      "title": "Sell or buy in 3 simple steps",
+      "step1": {
+        "title": "Post Your Item",
+        "desc": "Take a photo, set a price, and submit your listing",
+        "warning": "⚠️ Be honest about the condition of your item"
+      },
+      "step2": {
+        "title": "Connect with Buyers",
+        "desc": "Buyers contact you directly via WhatsApp",
+        "warning": "⚠️ Always meet in public places and bring a friend"
+      },
+      "step3": {
+        "title": "Sell & Deliver",
+        "desc": "Agree on price, meet safely, and complete the sale",
+        "warning": "⚠️ Never share personal information, banking details, or your home/work address"
+      }
+    },
+    "disclaimer": " BanuBazaar is a listing platform only. We hold no responsibility for agreements, payments, or deliveries."
+  },
+
+  "submit": {
+    "title": "Sell Your Item",
+    "sellerInfo": "Your Contact Info",
+    "name": "Your Name",
+    "phone": "Phone Number (WhatsApp preferred)",
+    "location": "Your Location (District/Area)",
+    "productDetails": "Product Details",
+    "titleLabel": "Title",
+    "category": "Category",
+    "condition": "Condition",
+    "price": "Price (AFN)",
+    "description": "Description",
+    "photos": "Upload Photos",
+    "submit": "Submit Listing",
+    "success": "Listing Submitted!",
+    "successMessage": "Your item is now waiting for approval. We'll review it within 24 hours.",
+    "submitAnother": "Submit another item",
+    "errorRequired": "Please fill in all required fields",
+    "errorImage": "Please upload at least one image",
+    "errorSubmit": "Failed to submit: ",
+    "namePlaceholder": "e.g., Fatima Karimi",
+    "phonePlaceholder": "e.g., 0788 123 456",
+    "locationPlaceholder": "e.g., Karte Parwan, Kabul",
+    "titlePlaceholder": "e.g., iPhone 12 Pro - 256GB",
+    "selectCategory": "Select...",
+    "selectCondition": "Select...",
+    "pricePlaceholder": "e.g., 15000",
+    "descriptionPlaceholder": "Describe your item, including any defects or special features...",
+    "uploading": "Uploading...",
+    "uploadInstructions": "Click to upload photos (max 5)",
+    "terms": "By submitting, you agree to our terms. All listings are reviewed before publishing.",
+    "conditionNew": "New",
+    "conditionLikeNew": "Like New",
+    "conditionUsed": "Used",
+    "conditionDamaged": "Damaged",
+    "categoryElectronics": "Electronics",
+    "categoryClothing": "Clothing",
+    "categoryHome": "Home Goods",
+    "categoryBooks": "Books",
+    "categoryOther": "Other"
+  },
+  "detail": {
+    "back": "Back to Products",
+    "description": "Description",
+    "seller": "Seller Information",
+    "contact": "Contact on WhatsApp",
+    "posted": "Posted on",
+    "loading": "Loading...",
+    "notFound": "Item not found",
+    "noDescription": "No description provided.",
+    "report": "Report Listing"
+  },
+  "admin": {
+    "title": "Admin Dashboard",
+    "manage": "Manage listings",
+    "pending": "Pending Listings",
+    "noPending": "No pending listings!",
+    "approve": "Approve",
+    "reject": "Reject",
+    "edit": "Edit",
+    "delete": "Delete",
+    "save": "Save Changes",
+    "cancel": "Cancel",
+    "manageActive": "Manage Active Listings",
+    "noActive": "No active listings yet.",
+    "markAsSold": "Mark as Sold",
+    "alreadySold": "Already Sold",
+    "soldItems": "Sold Items",
+    "noSoldItems": "No sold items yet.",
+    "sold": "Sold",
+    "deleteSold": "Delete from History",
+    "confirmDeleteSold": "Remove this item from sold history?",
+    "reports": "Reports",
+    "noReports": "No pending reports.",
+    "resolve": "Resolve",
+    "dismiss": "Dismiss"
+  },
+  "common": {
+    "noImage": "No image",
+    "language": "Language",
+    "english": "English",
+    "dari": "Dari",
+    "sold": "Sold"
+  },
+  "report": {
+    "title": "Report Listing",
+    "reason": "Reason for reporting",
+    "submit": "Submit Report",
+    "cancel": "Cancel",
+    "success": "✅ Report submitted! We'll review it shortly.",
+    "error": "Failed to submit report. Please try again.",
+    "options": {
+      "fake": "Fake or misleading listing",
+      "scam": "Potential scam",
+      "inappropriate": "Inappropriate content",
+      "already_sold": "Already sold but still listed",
+      "other": "Other"
+    }
+  }
+}

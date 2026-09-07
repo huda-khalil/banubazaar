@@ -1,10 +1,27 @@
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { supabase } from "../lib/supabase";
 
-const CATEGORIES = ["Electronics", "Clothing", "Home Goods", "Books", "Other"];
-const CONDITIONS = ["New", "Like New", "Used", "Damaged"];
-
 export default function Submit() {
+  const { t } = useTranslation();
+
+  // ✅ Categories — now uses t()
+  const CATEGORIES = [
+    { key: "Electronics", label: t("submit.categoryElectronics") },
+    { key: "Clothing", label: t("submit.categoryClothing") },
+    { key: "Home Goods", label: t("submit.categoryHome") },
+    { key: "Books", label: t("submit.categoryBooks") },
+    { key: "Other", label: t("submit.categoryOther") },
+  ];
+
+  // ✅ Conditions — now uses t()
+  const CONDITIONS = [
+    { key: "New", label: t("submit.conditionNew") },
+    { key: "Like New", label: t("submit.conditionLikeNew") },
+    { key: "Used", label: t("submit.conditionUsed") },
+    { key: "Damaged", label: t("submit.conditionDamaged") },
+  ];
+
   const [formData, setFormData] = useState({
     sellerName: "",
     sellerPhone: "",
@@ -55,24 +72,16 @@ export default function Submit() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("🚀 Form submitted!");
-    console.log("Form data:", formData);
-    console.log("Images:", images);
 
-    // Validation
     if (!formData.sellerName || !formData.sellerPhone || !formData.title) {
-      console.log("❌ Validation failed: Missing required fields");
-      setError("Please fill in all required fields");
+      setError(t("submit.errorRequired"));
       return;
     }
 
     if (images.length === 0) {
-      console.log("❌ Validation failed: No images");
-      setError("Please upload at least one image");
+      setError(t("submit.errorImage"));
       return;
     }
-
-    console.log("✅ Validation passed, sending to Supabase...");
 
     try {
       const { data, error } = await supabase.from("listings").insert([
@@ -90,14 +99,8 @@ export default function Submit() {
         },
       ]);
 
-      console.log("📦 Supabase response:", { data, error });
+      if (error) throw error;
 
-      if (error) {
-        console.log("❌ Supabase error:", error);
-        throw error;
-      }
-
-      console.log("✅ Success! Listing submitted");
       setSubmitted(true);
       setFormData({
         sellerName: "",
@@ -111,8 +114,7 @@ export default function Submit() {
       });
       setImages([]);
     } catch (err) {
-      console.log("❌ Catch block error:", err);
-      setError("Failed to submit: " + err.message);
+      setError(t("submit.errorSubmit") + err.message);
     }
   };
 
@@ -121,20 +123,14 @@ export default function Submit() {
       <div className="max-w-2xl mx-auto p-6 text-center">
         <div className="bg-green-50 border border-green-200 rounded-lg p-8">
           <h2 className="text-2xl font-bold text-green-700 mb-4">
-            ✅ Listing Submitted!
+            ✅ {t("submit.success")}
           </h2>
-          <p className="text-gray-700 mb-4">
-            Your item is now waiting for approval. We'll review it within 24
-            hours.
-          </p>
-          <p className="text-sm text-gray-500">
-            You'll receive a confirmation message when it's published.
-          </p>
+          <p className="text-gray-700 mb-4">{t("submit.successMessage")}</p>
           <button
             onClick={() => setSubmitted(false)}
-            className="mt-4 text-blue-600 hover:underline"
+            className="text-pink-600 hover:underline font-medium"
           >
-            Submit another item
+            {t("submit.submitAnother")}
           </button>
         </div>
       </div>
@@ -143,7 +139,7 @@ export default function Submit() {
 
   return (
     <div className="max-w-2xl mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-6">Sell Your Item</h1>
+      <h1 className="text-2xl font-bold mb-6">{t("submit.title")}</h1>
 
       {error && (
         <div className="bg-red-50 border border-red-200 text-red-700 p-4 rounded-lg mb-4">
@@ -157,11 +153,11 @@ export default function Submit() {
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Seller Info */}
         <div className="bg-gray-50 p-4 rounded-lg">
-          <h3 className="font-semibold mb-3">Your Contact Info</h3>
+          <h3 className="font-semibold mb-3">{t("submit.sellerInfo")}</h3>
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Your Name *
+              {t("submit.name")} *
             </label>
             <input
               type="text"
@@ -171,13 +167,13 @@ export default function Submit() {
                 setFormData({ ...formData, sellerName: e.target.value })
               }
               className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-pink-500"
-              placeholder="e.g., Fatima Karimi"
+              placeholder={t("submit.namePlaceholder")}
             />
           </div>
 
           <div className="mt-3">
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Phone Number (WhatsApp preferred) *
+              {t("submit.phone")} *
             </label>
             <input
               type="tel"
@@ -187,13 +183,13 @@ export default function Submit() {
                 setFormData({ ...formData, sellerPhone: e.target.value })
               }
               className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-pink-500"
-              placeholder="e.g., 0788 123 456"
+              placeholder={t("submit.phonePlaceholder")}
             />
           </div>
 
           <div className="mt-3">
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Your Location (District/Area) *
+              {t("submit.location")} *
             </label>
             <input
               type="text"
@@ -203,18 +199,18 @@ export default function Submit() {
                 setFormData({ ...formData, sellerLocation: e.target.value })
               }
               className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-pink-500"
-              placeholder="e.g., Karte Parwan, Kabul"
+              placeholder={t("submit.locationPlaceholder")}
             />
           </div>
         </div>
 
         {/* Product Info */}
         <div className="bg-gray-50 p-4 rounded-lg">
-          <h3 className="font-semibold mb-3">Product Details</h3>
+          <h3 className="font-semibold mb-3">{t("submit.productDetails")}</h3>
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Title *
+              {t("submit.titleLabel")} *
             </label>
             <input
               type="text"
@@ -224,14 +220,14 @@ export default function Submit() {
                 setFormData({ ...formData, title: e.target.value })
               }
               className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-pink-500"
-              placeholder="e.g., iPhone 12 Pro - 256GB"
+              placeholder={t("submit.titlePlaceholder")}
             />
           </div>
 
           <div className="grid grid-cols-2 gap-3 mt-3">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                Category *
+                {t("submit.category")} *
               </label>
               <select
                 required
@@ -241,10 +237,10 @@ export default function Submit() {
                 }
                 className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-pink-500"
               >
-                <option value="">Select...</option>
+                <option value="">{t("submit.selectCategory")}</option>
                 {CATEGORIES.map((cat) => (
-                  <option key={cat} value={cat}>
-                    {cat}
+                  <option key={cat.key} value={cat.key}>
+                    {cat.label}
                   </option>
                 ))}
               </select>
@@ -252,7 +248,7 @@ export default function Submit() {
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                Condition *
+                {t("submit.condition")} *
               </label>
               <select
                 required
@@ -262,10 +258,10 @@ export default function Submit() {
                 }
                 className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-pink-500"
               >
-                <option value="">Select...</option>
+                <option value="">{t("submit.selectCondition")}</option>
                 {CONDITIONS.map((cond) => (
-                  <option key={cond} value={cond}>
-                    {cond}
+                  <option key={cond.key} value={cond.key}>
+                    {cond.label}
                   </option>
                 ))}
               </select>
@@ -274,7 +270,7 @@ export default function Submit() {
 
           <div className="mt-3">
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Price (AFN) *
+              {t("submit.price")} *
             </label>
             <input
               type="number"
@@ -285,13 +281,13 @@ export default function Submit() {
                 setFormData({ ...formData, price: e.target.value })
               }
               className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-pink-500"
-              placeholder="e.g., 15000"
+              placeholder={t("submit.pricePlaceholder")}
             />
           </div>
 
           <div className="mt-3">
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Description *
+              {t("submit.description")} *
             </label>
             <textarea
               required
@@ -301,14 +297,14 @@ export default function Submit() {
                 setFormData({ ...formData, description: e.target.value })
               }
               className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-pink-500"
-              placeholder="Describe your item, including any defects or special features..."
+              placeholder={t("submit.descriptionPlaceholder")}
             />
           </div>
         </div>
 
         {/* Image Upload */}
         <div className="bg-gray-50 p-4 rounded-lg">
-          <h3 className="font-semibold mb-3">Upload Photos *</h3>
+          <h3 className="font-semibold mb-3">{t("submit.photos")} *</h3>
 
           <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
             <input
@@ -322,7 +318,7 @@ export default function Submit() {
             />
             <label htmlFor="image-upload" className="cursor-pointer block">
               {uploading ? (
-                <span>Uploading...</span>
+                <span>{t("submit.uploading")}</span>
               ) : (
                 <>
                   <svg
@@ -339,7 +335,7 @@ export default function Submit() {
                     />
                   </svg>
                   <p className="mt-2 text-sm text-gray-600">
-                    Click to upload photos (max 5)
+                    {t("submit.uploadInstructions")}
                   </p>
                 </>
               )}
@@ -375,13 +371,10 @@ export default function Submit() {
           disabled={uploading}
           className="w-full bg-pink-600 text-white py-3 rounded-lg font-semibold hover:bg-pink-700 disabled:opacity-50"
         >
-          {uploading ? "Uploading..." : "Submit Listing"}
+          {uploading ? t("submit.uploading") : t("submit.submit")}
         </button>
 
-        <p className="text-xs text-gray-500 text-center">
-          By submitting, you agree to our terms. All listings are reviewed
-          before publishing.
-        </p>
+        <p className="text-xs text-gray-500 text-center">{t("submit.terms")}</p>
       </form>
     </div>
   );

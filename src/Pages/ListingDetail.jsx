@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { supabase } from "../lib/supabase";
+import ReportModal from "../Components/ReportModal";
 
 export default function ListingDetail() {
   const { id } = useParams();
+  const { t } = useTranslation();
   const [listing, setListing] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [showReportModal, setShowReportModal] = useState(false);
 
   useEffect(() => {
     fetchListing();
@@ -30,27 +34,67 @@ export default function ListingDetail() {
       setLoading(false);
     }
   };
-
   const nextImage = () => {
-    if (listing?.images?.length) {
-      setCurrentImageIndex((prev) =>
-        prev === listing.images.length - 1 ? 0 : prev + 1,
-      );
+    if (!listing?.images?.length) return;
+
+    // In RTL, "next" visually means going left, so we go backward
+    const isRTL = document.documentElement.dir === "rtl";
+    const direction = isRTL ? -1 : 1;
+
+    const newIndex = currentImageIndex + direction;
+    if (newIndex < 0) {
+      setCurrentImageIndex(listing.images.length - 1);
+    } else if (newIndex >= listing.images.length) {
+      setCurrentImageIndex(0);
+    } else {
+      setCurrentImageIndex(newIndex);
     }
   };
 
   const prevImage = () => {
-    if (listing?.images?.length) {
-      setCurrentImageIndex((prev) =>
-        prev === 0 ? listing.images.length - 1 : prev - 1,
-      );
+    if (!listing?.images?.length) return;
+
+    // In RTL, "previous" visually means going right, so we go forward
+    const isRTL = document.documentElement.dir === "rtl";
+    const direction = isRTL ? 1 : -1;
+
+    const newIndex = currentImageIndex + direction;
+    if (newIndex < 0) {
+      setCurrentImageIndex(listing.images.length - 1);
+    } else if (newIndex >= listing.images.length) {
+      setCurrentImageIndex(0);
+    } else {
+      setCurrentImageIndex(newIndex);
     }
+  };
+
+  // Get translated category name
+  const getCategoryLabel = (categoryKey) => {
+    const map = {
+      Electronics: t("home.categories.electronics"),
+      Clothing: t("home.categories.clothing"),
+      "Home Goods": t("home.categories.home"),
+      Books: t("home.categories.books"),
+      Other: t("home.categories.other"),
+    };
+    return map[categoryKey] || categoryKey;
+  };
+
+  // Get translated condition name
+  const getConditionLabel = (conditionKey) => {
+    const map = {
+      New: t("submit.conditionNew"),
+      "Like New": t("submit.conditionLikeNew"),
+      Used: t("submit.conditionUsed"),
+      Damaged: t("submit.conditionDamaged"),
+    };
+    return map[conditionKey] || conditionKey;
   };
 
   if (loading) {
     return (
       <div className="max-w-4xl mx-auto px-4 py-16 text-center text-gray-500">
-        Loading...
+        {t("detail.loading")}
       </div>
     );
   }
@@ -58,12 +102,12 @@ export default function ListingDetail() {
   if (error || !listing) {
     return (
       <div className="max-w-4xl mx-auto px-4 py-16 text-center">
-        <p className="text-red-600 text-lg">Item not found</p>
+        <p className="text-red-600 text-lg">{t("detail.notFound")}</p>
         <Link
           to="/home"
           className="text-pink-600 hover:underline mt-4 inline-block"
         >
-          ← Back to Home
+          ← {t("detail.back")}
         </Link>
       </div>
     );
@@ -78,12 +122,19 @@ export default function ListingDetail() {
         to="/home"
         className="text-pink-600 hover:underline inline-block mb-6"
       >
-        ← Back to Browse
+        ← {t("detail.back")}
       </Link>
 
       <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
         {/* Image Carousel */}
-        <div className="bg-gray-50 p-4 relative">
+        <div className="relative bg-gray-50 p-4">
+          {/* Sold Badge */}
+          {listing.status === "sold" && (
+            <div className="absolute top-4 right-4 bg-red-600 text-white text-sm font-bold px-4 py-2 rounded-full shadow-lg z-20">
+              {t("common.sold")}
+            </div>
+          )}
+
           {images.length > 0 ? (
             <div className="relative">
               <img
@@ -92,24 +143,31 @@ export default function ListingDetail() {
                 className="w-full max-h-96 object-contain rounded-lg"
               />
 
-              {/* Navigation Arrows */}
               {images.length > 1 && (
                 <>
-                  <button
-                    onClick={prevImage}
-                    className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-800 text-4xl hover:text-pink-600 transition drop-shadow-lg"
-                    aria-label="Previous image"
+                  {/* ✅ Arrows — Centered with inset-0 */}
+                  <div
+                    className="absolute inset-0 flex items-center justify-between px-4 pointer-events-none"
+                    dir="ltr"
                   >
-                    ‹
-                  </button>
+                    {/* Left Arrow — ALWAYS goes previous */}
+                    <button
+                      onClick={prevImage}
+                      className="pointer-events-auto text-pink-400 text-5xl hover:text-pink-300 transition drop-shadow-lg z-10"
+                      aria-label="Previous image"
+                    >
+                      ‹
+                    </button>
 
-                  <button
-                    onClick={nextImage}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-800 text-4xl hover:text-pink-600 transition drop-shadow-lg"
-                    aria-label="Next image"
-                  >
-                    ›
-                  </button>
+                    {/* Right Arrow — ALWAYS goes next */}
+                    <button
+                      onClick={nextImage}
+                      className="pointer-events-auto text-pink-400 text-5xl hover:text-pink-300 transition drop-shadow-lg z-10"
+                      aria-label="Next image"
+                    >
+                      ›
+                    </button>
+                  </div>
 
                   {/* Image Counter */}
                   <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/60 text-white text-sm px-3 py-1 rounded-full">
@@ -141,14 +199,13 @@ export default function ListingDetail() {
             </div>
           ) : (
             <div className="w-full h-64 bg-gray-200 flex items-center justify-center text-gray-400">
-              No image available
+              {t("common.noImage")}
             </div>
           )}
         </div>
 
         {/* Details */}
         <div className="p-6">
-          {/* Title & Price */}
           <div className="flex flex-wrap justify-between items-start gap-4 mb-4">
             <h1 className="text-2xl md:text-3xl font-bold text-gray-800">
               {listing.title}
@@ -158,33 +215,31 @@ export default function ListingDetail() {
             </span>
           </div>
 
-          {/* Category & Condition */}
+          {/* Category & Condition — Translated */}
           <div className="flex flex-wrap gap-2 mb-4">
             <span className="bg-gray-100 px-3 py-1 rounded-full text-sm text-gray-700">
-              {listing.category}
+              {getCategoryLabel(listing.category)}
             </span>
             <span className="bg-gray-100 px-3 py-1 rounded-full text-sm text-gray-700">
-              {listing.condition}
+              {getConditionLabel(listing.condition)}
             </span>
             <span className="bg-gray-100 px-3 py-1 rounded-full text-sm text-gray-700">
               📍 {listing.seller_location}
             </span>
           </div>
 
-          {/* Description */}
           <div className="border-t border-gray-100 pt-4 mb-4">
             <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-2">
-              Description
+              {t("detail.description")}
             </h3>
             <p className="text-gray-700 whitespace-pre-wrap leading-relaxed">
-              {listing.description || "No description provided."}
+              {listing.description || t("detail.noDescription")}
             </p>
           </div>
 
-          {/* Seller Info */}
           <div className="border-t border-gray-100 pt-4">
             <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-2">
-              Seller Information
+              {t("detail.seller")}
             </h3>
             <div className="bg-pink-50 rounded-xl p-4 flex flex-wrap items-center justify-between gap-3">
               <div>
@@ -199,19 +254,36 @@ export default function ListingDetail() {
                 rel="noopener noreferrer"
                 className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-semibold transition"
               >
-                📱 Contact on WhatsApp
+                📱 {t("detail.contact")}
               </a>
             </div>
+
+            {/* Report Button */}
+            <button
+              onClick={() => setShowReportModal(true)}
+              className="text-sm text-red-500 hover:text-red-700 transition flex items-center gap-1 mt-4"
+            >
+              🚩 {t("detail.report")}
+            </button>
           </div>
 
-          {/* Posted Date */}
           <div className="border-t border-gray-100 pt-4 mt-4">
             <p className="text-xs text-gray-400">
-              Posted on {new Date(listing.created_at).toLocaleDateString()}
+              {t("detail.posted")}{" "}
+              {new Date(listing.created_at).toLocaleDateString()}
             </p>
           </div>
         </div>
       </div>
+
+      {/* Report Modal */}
+      {showReportModal && (
+        <ReportModal
+          listingId={listing.id}
+          onClose={() => setShowReportModal(false)}
+          onSuccess={() => {}}
+        />
+      )}
     </div>
   );
 }

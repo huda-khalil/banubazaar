@@ -7,6 +7,7 @@ import Home from "./Pages/Home";
 import Submit from "./Pages/Submit";
 import Admin from "./Pages/Admin";
 import ListingDetail from "./Pages/ListingDetail";
+import { Analytics } from "@vercel/analytics/react";
 
 function AppContent() {
   const location = useLocation();
@@ -25,6 +26,7 @@ function AppContent() {
         </Routes>
       </main>
       <Footer />
+      <Analytics />
     </div>
   );
 }

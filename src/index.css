@@ -46,3 +46,156 @@
   z-index: 20;
   border-radius: 16px;
 }
+
+/* English font */
+body {
+  font-family:
+    "Inter",
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+}
+
+/* Persian/Dari font when RTL */
+[dir="rtl"] body {
+  font-family: "Noto Sans Arabic", "Inter", sans-serif;
+}
+
+/* For better Persian readability */
+[dir="rtl"] h1,
+[dir="rtl"] h2,
+[dir="rtl"] h3,
+[dir="rtl"] p,
+[dir="rtl"] button,
+[dir="rtl"] input,
+[dir="rtl"] textarea,
+[dir="rtl"] select,
+[dir="rtl"] label {
+  font-family: "Noto Sans Arabic", "Inter", sans-serif;
+}
+
+/* In index.css */
+[dir="rtl"] body {
+  font-family: "Vazirmatn", "Noto Sans Arabic", sans-serif;
+}
+
+/* RTL Support */
+[dir="rtl"] {
+  direction: rtl;
+}
+
+[dir="rtl"] .flex-row {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .text-left {
+  text-align: right;
+}
+
+[dir="rtl"] .text-right {
+  text-align: left;
+}
+
+[dir="rtl"] .ml-4 {
+  margin-left: 0;
+  margin-right: 1rem;
+}
+
+[dir="rtl"] .mr-4 {
+  margin-right: 0;
+  margin-left: 1rem;
+}
+
+[dir="rtl"] .pl-4 {
+  padding-left: 0;
+  padding-right: 1rem;
+}
+
+[dir="rtl"] .pr-4 {
+  padding-right: 0;
+  padding-left: 1rem;
+}
+
+[dir="rtl"] .lang-toggle-container {
+  right: auto !important;
+  left: 1rem !important;
+}
+
+[dir="ltr"] .lang-toggle-container {
+  left: auto !important;
+  right: 1rem !important;
+}
+.shine-text {
+  background: linear-gradient(135deg, #db2777 0%, #a855f7 50%, #db2777 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 0% center;
+  }
+  50% {
+    background-position: 200% center;
+  }
+  100% {
+    background-position: 0% center;
+  }
+}
+
+.border-afghan {
+  border-bottom: 3px double #db2777;
+  padding-bottom: 4px;
+  display: inline-block;
+}
+
+.shine-subtle {
+  font-weight: 600;
+  background: linear-gradient(
+    120deg,
+    #4a5568 0%,
+    #db2777 30%,
+    #4a5568 60%,
+    #db2777 90%,
+    #4a5568 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shineSubtle 5s ease-in-out infinite;
+}
+
+@keyframes shineSubtle {
+  0% {
+    background-position: 0% center;
+  }
+  50% {
+    background-position: 150% center;
+  }
+  100% {
+    background-position: 0% center;
+  }
+}
+
+/* RTL Arrow Fix for Carousel */
+[dir="rtl"] .carousel-arrow-prev {
+  right: 1rem !important;
+  left: auto !important;
+}
+
+[dir="rtl"] .carousel-arrow-next {
+  left: 1rem !important;
+  right: auto !important;
+}
+
+[dir="rtl"] .carousel-arrow-prev .arrow-icon {
+  transform: scaleX(-1);
+}
+
+[dir="rtl"] .carousel-arrow-next .arrow-icon {
+  transform: scaleX(-1);
+}
