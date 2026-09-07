@@ -15,7 +15,7 @@ function AppContent() {
   const hideNavbar = location.pathname === "/";
 
   // ✅ Track page views on every route change
-  useEffect(() => {
+  React.useEffect(() => {
     trackPageView(location.pathname);
   }, [location]);
 
