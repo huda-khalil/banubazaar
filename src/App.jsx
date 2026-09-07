@@ -8,10 +8,16 @@ import Submit from "./Pages/Submit";
 import Admin from "./Pages/Admin";
 import ListingDetail from "./Pages/ListingDetail";
 import { Analytics } from "@vercel/analytics/react";
+import { trackPageView } from "./lib/analytics";
 
 function AppContent() {
   const location = useLocation();
   const hideNavbar = location.pathname === "/";
+
+  // ✅ Track page views on every route change
+  useEffect(() => {
+    trackPageView(location.pathname);
+  }, [location]);
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
