@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import Navbar from "./Components/Navbar";
 import Footer from "./Components/Footer";
@@ -15,7 +15,7 @@ function AppContent() {
   const hideNavbar = location.pathname === "/";
 
   // ✅ Track page views on every route change
-  React.useEffect(() => {
+  useEffect(() => {
     trackPageView(location.pathname);
   }, [location]);
 
