@@ -2,13 +2,11 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
-console.log("✅ AdminLogin component is rendering!");
 export default function AdminLogin() {
   //   const { t } = useTranslation();
   const navigate = useNavigate();
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const passwordInputRef = useRef(null);
   const ADMIN_PASSWORD = "banubazaar2025";
 
   const handleLogin = (e) => {
@@ -20,13 +18,6 @@ export default function AdminLogin() {
       setError("❌ Incorrect password");
     }
   };
-  useEffect(() => {
-    // Clear password field on component mount
-    setPassword("");
-    if (passwordInputRef.current) {
-      passwordInputRef.current.value = "";
-    }
-  }, []);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
