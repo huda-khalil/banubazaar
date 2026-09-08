@@ -146,5 +146,13 @@
       "already_sold": "Already sold but still listed",
       "other": "Other"
     }
+  },
+  "share": {
+    "title": "Share this item",
+    "copyLink": "Copy Link",
+    "copied": "Link copied to clipboard!",
+    "siteTitle": "Share BanuBazaar with your friends",
+    "siteSubtitle": "Help Afghan women discover a new way to buy and sell",
+    "siteMessage": "Check out BanuBazaar — Kabul's Marketplace for Women!"
   }
 }

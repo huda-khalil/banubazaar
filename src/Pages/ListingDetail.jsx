@@ -3,6 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { supabase } from "../lib/supabase";
 import ReportModal from "../Components/ReportModal";
+import ShareButtons from "../Components/ShareButtons";
 
 export default function ListingDetail() {
   const { id } = useParams();
@@ -265,6 +266,8 @@ export default function ListingDetail() {
             >
               🚩 {t("detail.report")}
             </button>
+            {/* Share Buttons */}
+            <ShareButtons title={listing.title} url={window.location.href} />
           </div>
 
           <div className="border-t border-gray-100 pt-4 mt-4">

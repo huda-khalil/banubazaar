@@ -222,24 +222,46 @@ export default function Admin() {
       setTimeout(() => setError(""), 3000);
     }
   };
-  const handleResolveReport = async (reportId, status) => {
+
+  // ✅ Resolve Report
+  const handleResolveReport = async (reportId) => {
     try {
       const { error } = await supabase
         .from("reports")
-        .update({ status })
+        .update({ status: "reviewed" })
         .eq("id", reportId);
 
       if (error) throw error;
 
-      setSuccess(`Report ${status === "reviewed" ? "resolved" : "dismissed"}!`);
+      setSuccess("✅ Report resolved!");
       fetchReports();
       setTimeout(() => setSuccess(""), 3000);
     } catch (err) {
-      setError("Failed to update report: " + err.message);
+      setError("Failed to resolve report: " + err.message);
       setTimeout(() => setError(""), 3000);
     }
   };
 
+  // ✅ Dismiss Report
+  const handleDismissReport = async (reportId) => {
+    try {
+      const { error } = await supabase
+        .from("reports")
+        .update({ status: "dismissed" })
+        .eq("id", reportId);
+
+      if (error) throw error;
+
+      setSuccess("❌ Report dismissed.");
+      fetchReports();
+      setTimeout(() => setSuccess(""), 3000);
+    } catch (err) {
+      setError("Failed to dismiss report: " + err.message);
+      setTimeout(() => setError(""), 3000);
+    }
+  };
+
+  // ✅ Delete Report
   const handleDeleteReport = async (reportId) => {
     if (!window.confirm("Delete this report permanently?")) return;
 
@@ -251,7 +273,7 @@ export default function Admin() {
 
       if (error) throw error;
 
-      setSuccess("🗑️ Report deleted!");
+      setSuccess("🗑️ Report deleted.");
       fetchReports();
       setTimeout(() => setSuccess(""), 3000);
     } catch (err) {
@@ -259,7 +281,6 @@ export default function Admin() {
       setTimeout(() => setError(""), 3000);
     }
   };
-
   // Start editing
   const startEditing = (listing) => {
     setEditingListing(listing.id);
@@ -1059,17 +1080,13 @@ export default function Admin() {
                     {/* Action Buttons */}
                     <div className="flex flex-wrap gap-2">
                       <button
-                        onClick={() =>
-                          handleResolveReport(report.id, "reviewed")
-                        }
+                        onClick={() => handleResolveReport(report.id)}
                         className="px-3 py-1.5 bg-green-600 text-white rounded-lg hover:bg-green-700 transition text-sm flex items-center gap-1"
                       >
                         ✅ {t("admin.resolve")}
                       </button>
                       <button
-                        onClick={() =>
-                          handleResolveReport(report.id, "dismissed")
-                        }
+                        onClick={() => handleDismissReport(report.id)}
                         className="px-3 py-1.5 bg-gray-400 text-white rounded-lg hover:bg-gray-500 transition text-sm flex items-center gap-1"
                       >
                         ❌ {t("admin.dismiss")}
