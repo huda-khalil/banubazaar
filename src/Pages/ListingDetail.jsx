@@ -4,8 +4,10 @@ import { useTranslation } from "react-i18next";
 import { supabase } from "../lib/supabase";
 import ReportModal from "../Components/ReportModal";
 import ShareButtons from "../Components/ShareButtons";
+import Toast from "../Components/Toast";
 
 export default function ListingDetail() {
+  const [toast, setToast] = useState(null);
   const { id } = useParams();
   const { t } = useTranslation();
   const [listing, setListing] = useState(null);
@@ -267,7 +269,11 @@ export default function ListingDetail() {
               🚩 {t("detail.report")}
             </button>
             {/* Share Buttons */}
-            <ShareButtons title={listing.title} url={window.location.href} />
+            <ShareButtons
+              title={listing.title}
+              url={window.location.href}
+              onCopy={(message) => setToast({ message, type: "success" })}
+            />
           </div>
 
           <div className="border-t border-gray-100 pt-4 mt-4">
@@ -285,6 +291,14 @@ export default function ListingDetail() {
           listingId={listing.id}
           onClose={() => setShowReportModal(false)}
           onSuccess={() => {}}
+        />
+      )}
+      {/* Toast Notification */}
+      {toast && (
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast(null)}
         />
       )}
     </div>

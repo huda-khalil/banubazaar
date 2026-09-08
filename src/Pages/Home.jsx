@@ -240,7 +240,7 @@ export default function Home() {
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
           <div>
             <p className="text-sm font-medium text-gray-700">
-              🌸 {t("share.siteTitle")}
+              {t("share.siteTitle")}
             </p>
             <p className="text-xs text-gray-400">{t("share.siteSubtitle")}</p>
           </div>

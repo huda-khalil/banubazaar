@@ -35,18 +35,23 @@ export default function Admin() {
     "Other",
   ];
   const CONDITIONS = ["New", "Like New", "Used", "Damaged"];
+  const [approvedListings, setApprovedListings] = useState([]);
 
   // Handle login
   const handleLogin = (e) => {
     e.preventDefault();
     if (password === ADMIN_PASSWORD) {
       setIsAuthenticated(true);
+      localStorage.setItem("isAdmin", "true");
       setError("");
     } else {
       setError("❌ Incorrect password");
     }
   };
-  const [approvedListings, setApprovedListings] = useState([]);
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+    localStorage.removeItem("isAdmin"); // ✅ Remove login state
+  };
   const fetchSoldListings = async () => {
     try {
       const { data, error } = await supabase
@@ -406,7 +411,7 @@ export default function Admin() {
               )}
             </Link>
             <button
-              onClick={() => setIsAuthenticated(false)}
+              onClick={handleLogout}
               className="text-gray-500 hover:text-red-600 text-sm"
             >
               Logout

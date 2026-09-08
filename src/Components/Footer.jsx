@@ -1,5 +1,6 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 
 export default function Footer() {
   const { t } = useTranslation();
@@ -15,18 +16,18 @@ export default function Footer() {
             <span>Kabul's Marketplace for Women</span>
           </div>
           <div className="flex gap-4 mt-2 md:mt-0">
-            <a href="#" className="hover:text-pink-600 transition">
-              About
-            </a>
-            <a href="#" className="hover:text-pink-600 transition">
-              Contact
-            </a>
-            <a href="#" className="hover:text-pink-600 transition">
-              Privacy
-            </a>
-            <a href="#" className="hover:text-pink-600 transition">
-              Terms
-            </a>
+            <Link to="/about" className="hover:text-pink-600 transition">
+              {t("footer.about")}
+            </Link>
+            <Link to="/contact" className="hover:text-pink-600 transition">
+              {t("footer.contact")}
+            </Link>
+            <Link to="/privacy" className="hover:text-pink-600 transition">
+              {t("footer.privacy")}
+            </Link>
+            <Link to="/terms" className="hover:text-pink-600 transition">
+              {t("footer.terms")}
+            </Link>
           </div>
         </div>
       </div>

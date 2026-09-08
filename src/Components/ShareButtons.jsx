@@ -1,7 +1,7 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 
-export default function ShareButtons({ title, url }) {
+export default function ShareButtons({ title, url, onCopy }) {
   const { t } = useTranslation();
 
   const shareText = encodeURIComponent(
@@ -12,11 +12,12 @@ export default function ShareButtons({ title, url }) {
   const whatsappUrl = `https://wa.me/?text=${shareText}%20${shareUrl}`;
   const telegramUrl = `https://t.me/share/url?url=${shareUrl}&text=${shareText}`;
   const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${shareUrl}`;
-  const twitterUrl = `https://twitter.com/intent/tweet?text=${shareText}&url=${shareUrl}`;
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(url);
-    alert(t("share.copied"));
+    if (onCopy) {
+      onCopy(t("share.copied"));
+    }
   };
 
   return (

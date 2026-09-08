@@ -9,6 +9,8 @@ import Admin from "./Pages/Admin";
 import ListingDetail from "./Pages/ListingDetail";
 import { Analytics } from "@vercel/analytics/react";
 import { trackPageView } from "./lib/analytics";
+import Contact from "./Pages/Contact";
+import ProtectedRoute from "./Components/ProtectedRoute";
 
 function AppContent() {
   const location = useLocation();
@@ -27,8 +29,16 @@ function AppContent() {
           <Route path="/" element={<Landing />} />
           <Route path="/home" element={<Home />} />
           <Route path="/submit" element={<Submit />} />
-          <Route path="/admin" element={<Admin />} />
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute>
+                <Admin />
+              </ProtectedRoute>
+            }
+          />
           <Route path="/listing/:id" element={<ListingDetail />} />
+          <Route path="/contact" element={<Contact />} />
         </Routes>
       </main>
       <Footer />

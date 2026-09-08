@@ -2,6 +2,7 @@
   "nav": {
     "home": "Home",
     "sell": "Sell",
+    "contact": "Contact",
     "admin": "Admin"
   },
   "landing": {
@@ -28,7 +29,7 @@
     "beFirst": "Be the first to sell!",
     "loading": "Loading items...",
     "howItWorks": {
-      "title": "Sell or buy in 3 simple steps",
+      "title": "Sell in 3 simple steps",
       "step1": {
         "title": "Post Your Item",
         "desc": "Take a photo, set a price, and submit your listing",
@@ -154,5 +155,21 @@
     "siteTitle": "Share BanuBazaar with your friends",
     "siteSubtitle": "Help Afghan women discover a new way to buy and sell",
     "siteMessage": "Check out BanuBazaar — Kabul's Marketplace for Women!"
+  },
+  "contact": {
+    "title": "Contact Us",
+    "subtitle": "We're here to help. Reach out anytime.",
+    "whatsapp": "WhatsApp",
+    "whatsappDesc": "Chat with us directly on WhatsApp",
+    "whatsappButton": "Message us on WhatsApp →",
+    "email": "Email",
+    "emailDesc": "Send us an email and we'll respond within 24 hours",
+    "responseTime": "We aim to respond to all messages within 24 hours."
+  },
+  "footer": {
+    "about": "About",
+    "contact": "Contact",
+    "privacy": "Privacy",
+    "terms": "Terms"
   }
 }
