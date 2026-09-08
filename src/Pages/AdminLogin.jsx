@@ -14,7 +14,6 @@ export default function AdminLogin() {
     if (password === ADMIN_PASSWORD) {
       localStorage.setItem("isAdmin", "true");
       navigate("/admin");
-      setPassword("");
     } else {
       setError("❌ Incorrect password");
       setPassword("");
