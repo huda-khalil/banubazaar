@@ -18,10 +18,6 @@ export default function AdminLogin() {
       navigate("/admin");
     } else {
       setError("❌ Incorrect password");
-      setPassword(""); // ✅ Clear password field
-      if (passwordInputRef.current) {
-        passwordInputRef.current.value = "";
-      }
     }
   };
   useEffect(() => {
