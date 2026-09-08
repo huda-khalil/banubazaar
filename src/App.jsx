@@ -11,6 +11,7 @@ import { Analytics } from "@vercel/analytics/react";
 import { trackPageView } from "./lib/analytics";
 import Contact from "./Pages/Contact";
 import ProtectedRoute from "./Components/ProtectedRoute";
+import AdminLogin from "./Pages/AdminLogin";
 
 function AppContent() {
   const location = useLocation();
@@ -26,9 +27,12 @@ function AppContent() {
       {!hideNavbar && <Navbar />}
       <main className="flex-grow">
         <Routes>
+          <Route path="/admin-login" element={<AdminLogin />} />
           <Route path="/" element={<Landing />} />
           <Route path="/home" element={<Home />} />
           <Route path="/submit" element={<Submit />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/listing/:id" element={<ListingDetail />} />
           <Route
             path="/admin"
             element={
@@ -37,8 +41,8 @@ function AppContent() {
               </ProtectedRoute>
             }
           />
-          <Route path="/listing/:id" element={<ListingDetail />} />
-          <Route path="/contact" element={<Contact />} />
+          {/* ✅ Catch-all route — redirects to home if no match */}
+          <Route path="*" element={<Landing />} />
         </Routes>
       </main>
       <Footer />
