@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { replace, useNavigate } from "react-router-dom";
 
 export default function AdminLogin() {
   const navigate = useNavigate();
@@ -12,7 +12,7 @@ export default function AdminLogin() {
 
     if (password === ADMIN_PASSWORD) {
       localStorage.setItem("isAdmin", "true");
-      navigate("/admin");
+      navigate("/admin", { replace: true });
       setPassword("");
     } else {
       setError("❌ Incorrect password");
