@@ -1,37 +1,21 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useTranslation } from "react-i18next";
 
 export default function AdminLogin() {
-  const { t } = useTranslation();
   const navigate = useNavigate();
+  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const passwordRef = useRef(null); // ✅ Use ref to read the password
-  const [loading, setLoading] = useState(false);
   const ADMIN_PASSWORD = "banubazaar2025";
 
-  // ✅ Clear the input field when the page loads
-  useEffect(() => {
-    if (passwordRef.current) {
-      passwordRef.current.value = "";
-    }
-  }, []);
-
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    const password = passwordRef.current?.value || ""; // ✅ Read from ref
+  const handleLogin = (e) => {
+    e.preventDefault(); // ✅ THIS MUST BE FIRST
 
     if (password === ADMIN_PASSWORD) {
       localStorage.setItem("isAdmin", "true");
-      await navigate("/admin"); // ✅ Wait for navigation
-      //   navigate("/admin");
+      navigate("/admin");
     } else {
       setError("❌ Incorrect password");
-      if (passwordRef.current) {
-        passwordRef.current.value = ""; // ✅ Clear the input
-        passwordRef.current.focus(); // ✅ Focus for retry
-      }
+      setPassword("");
     }
   };
 
@@ -49,13 +33,12 @@ export default function AdminLogin() {
               Enter Admin Password
             </label>
             <input
-              ref={passwordRef} // ✅ Use ref instead of state
               type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-pink-500"
               placeholder="Enter password..."
-              disabled={loading} // ✅ Disable while loading
               autoFocus
-              autoComplete="new-password" // ✅ Prevents browser autofill
             />
           </div>
 
@@ -67,10 +50,9 @@ export default function AdminLogin() {
 
           <button
             type="submit"
-            disabled={loading} // ✅ Disable while loading
             className="w-full bg-pink-600 text-white py-2 rounded-lg hover:bg-pink-700 transition"
           >
-            {loading ? "Logging in..." : "Login"}
+            Login
           </button>
         </form>
       </div>
