@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
@@ -9,6 +9,10 @@ export default function AdminLogin() {
   const [error, setError] = useState("");
   const ADMIN_PASSWORD = "banubazaar2025";
 
+  // ✅ Clear password field when the component loads
+  useEffect(() => {
+    setPassword("");
+  }, []);
   const handleLogin = (e) => {
     e.preventDefault();
     if (password === ADMIN_PASSWORD) {
@@ -16,7 +20,6 @@ export default function AdminLogin() {
       navigate("/admin");
     } else {
       setError("❌ Incorrect password");
-      setPassword("");
     }
   };
 
