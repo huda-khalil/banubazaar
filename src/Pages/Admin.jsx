@@ -1,16 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { supabase } from "../lib/supabase";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 
 export default function Admin() {
+  const { t } = useTranslation();
   const [reports, setReports] = useState([]);
   const [soldListings, setSoldListings] = useState([]);
-  const { t } = useTranslation();
   const [listings, setListings] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [password, setPassword] = useState("");
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [editingListing, setEditingListing] = useState(null);
@@ -24,8 +22,7 @@ export default function Admin() {
     seller_phone: "",
     seller_location: "",
   });
-
-  const ADMIN_PASSWORD = "banubazaar2025";
+  const [approvedListings, setApprovedListings] = useState([]);
 
   const CATEGORIES = [
     "Electronics",
@@ -35,23 +32,22 @@ export default function Admin() {
     "Other",
   ];
   const CONDITIONS = ["New", "Like New", "Used", "Damaged"];
-  const [approvedListings, setApprovedListings] = useState([]);
 
-  // Handle login
-  //   const handleLogin = (e) => {
-  //     e.preventDefault();
-  //     if (password === ADMIN_PASSWORD) {
-  //       setIsAuthenticated(true);
-  //       localStorage.setItem("isAdmin", "true");
-  //       setError("");
-  //     } else {
-  //       setError("❌ Incorrect password");
-  //     }
-  //   };
+  // ✅ Check if admin is logged in
+  const isAdmin = localStorage.getItem("isAdmin") === "true";
+
+  // ✅ Redirect to login if not authenticated
+  if (!isAdmin) {
+    return <Navigate to="/admin-login" replace />;
+  }
+
+  // ✅ Logout function
   const handleLogout = () => {
-    setIsAuthenticated(false);
-    localStorage.removeItem("isAdmin"); // ✅ Remove login state
+    localStorage.removeItem("isAdmin");
+    window.location.href = "/admin-login";
   };
+
+  // Fetch functions
   const fetchSoldListings = async () => {
     try {
       const { data, error } = await supabase
@@ -82,7 +78,6 @@ export default function Admin() {
     }
   };
 
-  // Fetch pending listings
   const fetchPendingListings = async () => {
     setLoading(true);
     try {
@@ -100,6 +95,7 @@ export default function Admin() {
       setLoading(false);
     }
   };
+
   const fetchReports = async () => {
     try {
       const { data, error } = await supabase
@@ -115,15 +111,13 @@ export default function Admin() {
     }
   };
 
-  // Load listings when authenticated
+  // Load all data on mount
   useEffect(() => {
-    if (isAuthenticated) {
-      fetchPendingListings();
-      fetchApprovedListings();
-      fetchSoldListings();
-      fetchReports();
-    }
-  }, [isAuthenticated]);
+    fetchPendingListings();
+    fetchApprovedListings();
+    fetchSoldListings();
+    fetchReports();
+  }, []);
 
   // Approve listing
   const handleApprove = async (id) => {
@@ -191,6 +185,8 @@ export default function Admin() {
       setTimeout(() => setError(""), 3000);
     }
   };
+
+  // Mark as sold
   const handleMarkAsSold = async (id) => {
     if (!window.confirm("Mark this listing as sold?")) return;
 
@@ -203,14 +199,16 @@ export default function Admin() {
       if (error) throw error;
 
       setSuccess("💰 Item marked as sold!");
-      fetchApprovedListings(); // ✅ Refresh the approved list
-      fetchPendingListings(); // Also refresh pending in case
+      fetchApprovedListings();
+      fetchPendingListings();
       setTimeout(() => setSuccess(""), 3000);
     } catch (err) {
       setError("Failed to mark as sold: " + err.message);
       setTimeout(() => setError(""), 3000);
     }
   };
+
+  // Delete sold item
   const handleDeleteSoldItem = async (id) => {
     if (!window.confirm(t("admin.confirmDeleteSold"))) return;
 
@@ -220,7 +218,7 @@ export default function Admin() {
       if (error) throw error;
 
       setSuccess("🗑️ Sold item removed from history!");
-      fetchSoldListings(); // Refresh the sold list
+      fetchSoldListings();
       setTimeout(() => setSuccess(""), 3000);
     } catch (err) {
       setError("Failed to delete: " + err.message);
@@ -228,7 +226,7 @@ export default function Admin() {
     }
   };
 
-  // ✅ Resolve Report
+  // Resolve Report
   const handleResolveReport = async (reportId) => {
     try {
       const { error } = await supabase
@@ -247,7 +245,7 @@ export default function Admin() {
     }
   };
 
-  // ✅ Dismiss Report
+  // Dismiss Report
   const handleDismissReport = async (reportId) => {
     try {
       const { error } = await supabase
@@ -266,7 +264,7 @@ export default function Admin() {
     }
   };
 
-  // ✅ Delete Report
+  // Delete Report
   const handleDeleteReport = async (reportId) => {
     if (!window.confirm("Delete this report permanently?")) return;
 
@@ -286,6 +284,7 @@ export default function Admin() {
       setTimeout(() => setError(""), 3000);
     }
   };
+
   // Start editing
   const startEditing = (listing) => {
     setEditingListing(listing.id);
@@ -346,50 +345,7 @@ export default function Admin() {
     }
   };
 
-  // Login screen
-  if (!isAuthenticated) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-          <div className="text-center mb-6">
-            <h1 className="text-2xl font-bold text-pink-600">🛍️ BanuBazaar</h1>
-            <p className="text-gray-500 text-sm">Admin Dashboard</p>
-          </div>
-
-          {/* <form onSubmit={handleLogin}>
-            <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Enter Admin Password
-              </label>
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
-                placeholder="Enter password..."
-                autoFocus
-              />
-            </div>
-
-            {error && (
-              <div className="mb-4 p-3 bg-red-50 text-red-700 rounded-lg text-sm">
-                {error}
-              </div>
-            )}
-
-            <button
-              type="submit"
-              className="w-full bg-pink-600 text-white py-2 rounded-lg hover:bg-pink-700 transition"
-            >
-              Login
-            </button>
-          </form> */}
-        </div>
-      </div>
-    );
-  }
-
-  // Admin dashboard
+  // --- Admin Dashboard UI ---
   return (
     <div className="min-h-screen bg-gray-50">
       <header className="bg-white shadow-sm border-b border-pink-100">
@@ -401,7 +357,6 @@ export default function Admin() {
             <p className="text-sm text-gray-500">Manage listings</p>
           </div>
           <div className="flex items-center gap-4">
-            {/* 🔔 Notification Badge */}
             <Link to="#reports" className="relative">
               <span className="text-xl">🔔</span>
               {reports.length > 0 && (
@@ -421,7 +376,6 @@ export default function Admin() {
       </header>
 
       <main className="max-w-7xl mx-auto px-4 py-6">
-        {/* Messages */}
         {error && (
           <div className="mb-4 p-4 bg-red-50 text-red-700 rounded-lg border border-red-200">
             {error}
@@ -433,7 +387,6 @@ export default function Admin() {
           </div>
         )}
 
-        {/* Stats */}
         <div className="mb-6 p-4 bg-white rounded-lg shadow-sm border">
           <div className="flex justify-between items-center">
             <span className="text-gray-700">
@@ -448,7 +401,6 @@ export default function Admin() {
           </div>
         </div>
 
-        {/* Listings */}
         {loading ? (
           <div className="text-center py-12 text-gray-500">
             Loading pending listings...
@@ -465,13 +417,11 @@ export default function Admin() {
                 key={listing.id}
                 className="bg-white rounded-lg shadow-sm border p-4 hover:shadow-md transition"
               >
-                {/* Edit Mode */}
                 {editingListing === listing.id ? (
                   <div className="space-y-4">
                     <h3 className="font-semibold text-lg text-gray-800">
                       ✏️ Edit Listing
                     </h3>
-
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -606,7 +556,6 @@ export default function Admin() {
                         />
                       </div>
                     </div>
-
                     <div className="flex gap-2">
                       <button
                         onClick={() => handleSaveEdit(listing.id)}
@@ -623,9 +572,7 @@ export default function Admin() {
                     </div>
                   </div>
                 ) : (
-                  /* Normal View */
                   <div className="flex flex-col md:flex-row gap-4">
-                    {/* Image */}
                     <div className="md:w-32 h-32 flex-shrink-0 bg-gray-100 rounded-lg overflow-hidden">
                       {listing.images && listing.images.length > 0 ? (
                         <img
@@ -639,8 +586,6 @@ export default function Admin() {
                         </div>
                       )}
                     </div>
-
-                    {/* Details */}
                     <div className="flex-1 min-w-0">
                       <div className="flex flex-wrap items-start justify-between gap-2">
                         <div>
@@ -655,11 +600,9 @@ export default function Admin() {
                           {listing.price} AFN
                         </div>
                       </div>
-
                       <p className="text-sm text-gray-600 mt-2 line-clamp-2">
                         {listing.description}
                       </p>
-
                       <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-gray-500">
                         <span>👤 {listing.seller_name}</span>
                         <span>📱 {listing.seller_phone}</span>
@@ -668,8 +611,6 @@ export default function Admin() {
                           📅 {new Date(listing.created_at).toLocaleDateString()}
                         </span>
                       </div>
-
-                      {/* Action Buttons */}
                       <div className="mt-4 flex flex-wrap gap-2">
                         <button
                           onClick={() => handleApprove(listing.id)}
@@ -701,7 +642,6 @@ export default function Admin() {
                         >
                           💰 {t("admin.markAsSold")}
                         </button>
-                        ;
                       </div>
                     </div>
                   </div>
@@ -710,12 +650,12 @@ export default function Admin() {
             ))}
           </div>
         )}
-        {/* 📋 Manage Active Listings */}
+
+        {/* Manage Active Listings */}
         <div className="mt-12">
           <h2 className="text-xl font-bold text-gray-800 mb-4">
             📋 {t("admin.manageActive")}
           </h2>
-
           {approvedListings.length === 0 ? (
             <div className="text-center py-8 bg-white rounded-lg shadow-sm border">
               <p className="text-gray-500">{t("admin.noActive")}</p>
@@ -727,13 +667,11 @@ export default function Admin() {
                   key={listing.id}
                   className="bg-white rounded-lg shadow-sm border p-4 hover:shadow-md transition"
                 >
-                  {/* Edit Mode */}
                   {editingListing === listing.id ? (
                     <div className="space-y-4">
                       <h3 className="font-semibold text-lg text-gray-800">
                         ✏️ {t("admin.editListing")}
                       </h3>
-
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                           <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -874,7 +812,6 @@ export default function Admin() {
                           />
                         </div>
                       </div>
-
                       <div className="flex gap-2">
                         <button
                           onClick={() => handleSaveEdit(listing.id)}
@@ -891,9 +828,7 @@ export default function Admin() {
                       </div>
                     </div>
                   ) : (
-                    /* Normal View */
                     <div className="flex flex-col md:flex-row gap-4">
-                      {/* Image */}
                       <div className="md:w-24 h-24 flex-shrink-0 bg-gray-100 rounded-lg overflow-hidden">
                         {listing.images?.length > 0 ? (
                           <img
@@ -907,8 +842,6 @@ export default function Admin() {
                           </div>
                         )}
                       </div>
-
-                      {/* Details */}
                       <div className="flex-1">
                         <div className="flex flex-wrap items-start justify-between gap-2">
                           <div>
@@ -923,7 +856,6 @@ export default function Admin() {
                             {listing.price} AFN
                           </div>
                         </div>
-
                         <div className="mt-2 flex flex-wrap items-center gap-3 text-sm text-gray-500">
                           <span>👤 {listing.seller_name}</span>
                           <span>📍 {listing.seller_location}</span>
@@ -932,18 +864,13 @@ export default function Admin() {
                             {new Date(listing.created_at).toLocaleDateString()}
                           </span>
                         </div>
-
-                        {/* Action Buttons */}
                         <div className="mt-3 flex flex-wrap gap-2">
-                          {/* ✅ Edit Button — Now in Active Listings */}
                           <button
                             onClick={() => startEditing(listing)}
                             className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition text-sm flex items-center gap-1"
                           >
                             ✏️ {t("admin.edit")}
                           </button>
-
-                          {/* Mark as Sold Button */}
                           {listing.status === "sold" ? (
                             <span className="inline-block px-4 py-2 bg-gray-300 text-gray-600 rounded-lg text-sm font-medium">
                               ✅ {t("admin.alreadySold")}
@@ -965,12 +892,12 @@ export default function Admin() {
             </div>
           )}
         </div>
-        {/* 📋 Sold Items */}
+
+        {/* Sold Items */}
         <div className="mt-12">
           <h2 className="text-xl font-bold text-gray-800 mb-4">
             📦 {t("admin.soldItems")}
           </h2>
-
           {soldListings.length === 0 ? (
             <div className="text-center py-8 bg-white rounded-lg shadow-sm border">
               <p className="text-gray-500">{t("admin.noSoldItems")}</p>
@@ -983,7 +910,6 @@ export default function Admin() {
                   className="bg-gray-50 rounded-lg shadow-sm border border-gray-200 p-4 hover:shadow-md transition"
                 >
                   <div className="flex flex-col md:flex-row gap-4">
-                    {/* Image */}
                     <div className="md:w-24 h-24 flex-shrink-0 bg-gray-200 rounded-lg overflow-hidden">
                       {listing.images?.length > 0 ? (
                         <img
@@ -997,8 +923,6 @@ export default function Admin() {
                         </div>
                       )}
                     </div>
-
-                    {/* Details */}
                     <div className="flex-1">
                       <div className="flex flex-wrap items-start justify-between gap-2">
                         <div>
@@ -1013,7 +937,6 @@ export default function Admin() {
                           {listing.price} AFN
                         </div>
                       </div>
-
                       <div className="mt-2 flex flex-wrap items-center gap-3 text-sm text-gray-500">
                         <span>👤 {listing.seller_name}</span>
                         <span>📍 {listing.seller_location}</span>
@@ -1024,8 +947,6 @@ export default function Admin() {
                           ✅ {t("admin.sold")}
                         </span>
                       </div>
-
-                      {/* Optional: Delete button for sold items */}
                       <div className="mt-3">
                         <button
                           onClick={() => handleDeleteSoldItem(listing.id)}
@@ -1041,12 +962,12 @@ export default function Admin() {
             </div>
           )}
         </div>
-        {/* 📋 Reports Section */}
+
+        {/* Reports Section */}
         <div id="reports" className="mt-12">
           <h2 className="text-xl font-bold text-gray-800 mb-4">
             🚩 {t("admin.reports")} ({reports.length})
           </h2>
-
           {reports.length === 0 ? (
             <div className="text-center py-8 bg-white rounded-lg shadow-sm border">
               <p className="text-gray-500">{t("admin.noReports")}</p>
@@ -1059,7 +980,6 @@ export default function Admin() {
                   className="bg-white rounded-lg shadow-sm border p-4 hover:shadow-md transition"
                 >
                   <div className="flex flex-col md:flex-row justify-between items-start gap-4">
-                    {/* Report Details */}
                     <div className="flex-1">
                       <div className="flex flex-wrap items-center gap-2">
                         <span className="font-medium text-gray-800">
@@ -1070,19 +990,15 @@ export default function Admin() {
                             report.reason}
                         </span>
                       </div>
-
                       {report.reporter_phone && (
                         <p className="text-sm text-gray-500 mt-1">
                           📱 {report.reporter_phone}
                         </p>
                       )}
-
                       <p className="text-xs text-gray-400 mt-1">
                         📅 {new Date(report.created_at).toLocaleDateString()}
                       </p>
                     </div>
-
-                    {/* Action Buttons */}
                     <div className="flex flex-wrap gap-2">
                       <button
                         onClick={() => handleResolveReport(report.id)}

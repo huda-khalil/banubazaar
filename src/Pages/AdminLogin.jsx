@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { replace, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function AdminLogin() {
   const navigate = useNavigate();
@@ -8,15 +8,15 @@ export default function AdminLogin() {
   const ADMIN_PASSWORD = "banubazaar2025";
 
   const handleLogin = (e) => {
-    e.preventDefault(); // ✅ THIS MUST BE FIRST
+    e.preventDefault();
 
     if (password === ADMIN_PASSWORD) {
       localStorage.setItem("isAdmin", "true");
       navigate("/admin", { replace: true });
-      setPassword("");
+      // ✅ DO NOT clear password — page will unmount
     } else {
       setError("❌ Incorrect password");
-      setPassword("");
+      setPassword(""); // ✅ Clear on error only
     }
   };
 
