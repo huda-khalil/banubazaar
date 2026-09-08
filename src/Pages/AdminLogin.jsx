@@ -43,12 +43,10 @@ export default function AdminLogin() {
             </label>
             <input
               type="password"
-              ref={passwordInputRef}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
               placeholder="Enter password..."
-              autoComplete="off"
               autoFocus
             />
           </div>
