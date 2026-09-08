@@ -38,16 +38,16 @@ export default function Admin() {
   const [approvedListings, setApprovedListings] = useState([]);
 
   // Handle login
-  const handleLogin = (e) => {
-    e.preventDefault();
-    if (password === ADMIN_PASSWORD) {
-      setIsAuthenticated(true);
-      localStorage.setItem("isAdmin", "true");
-      setError("");
-    } else {
-      setError("❌ Incorrect password");
-    }
-  };
+  //   const handleLogin = (e) => {
+  //     e.preventDefault();
+  //     if (password === ADMIN_PASSWORD) {
+  //       setIsAuthenticated(true);
+  //       localStorage.setItem("isAdmin", "true");
+  //       setError("");
+  //     } else {
+  //       setError("❌ Incorrect password");
+  //     }
+  //   };
   const handleLogout = () => {
     setIsAuthenticated(false);
     localStorage.removeItem("isAdmin"); // ✅ Remove login state
@@ -356,7 +356,7 @@ export default function Admin() {
             <p className="text-gray-500 text-sm">Admin Dashboard</p>
           </div>
 
-          <form onSubmit={handleLogin}>
+          {/* <form onSubmit={handleLogin}>
             <div className="mb-4">
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Enter Admin Password
@@ -383,7 +383,7 @@ export default function Admin() {
             >
               Login
             </button>
-          </form>
+          </form> */}
         </div>
       </div>
     );
