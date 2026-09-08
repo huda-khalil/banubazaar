@@ -8,6 +8,7 @@ export default function AdminLogin() {
   const navigate = useNavigate();
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const passwordInputRef = useRef(null);
   const ADMIN_PASSWORD = "banubazaar2025";
 
   const handleLogin = (e) => {
@@ -17,8 +18,19 @@ export default function AdminLogin() {
       navigate("/admin");
     } else {
       setError("❌ Incorrect password");
+      setPassword(""); // ✅ Clear password field
+      if (passwordInputRef.current) {
+        passwordInputRef.current.value = "";
+      }
     }
   };
+  useEffect(() => {
+    // Clear password field on component mount
+    setPassword("");
+    if (passwordInputRef.current) {
+      passwordInputRef.current.value = "";
+    }
+  }, []);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
@@ -35,10 +47,12 @@ export default function AdminLogin() {
             </label>
             <input
               type="password"
+              ref={passwordInputRef}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
               placeholder="Enter password..."
+              autoComplete="off"
               autoFocus
             />
           </div>
