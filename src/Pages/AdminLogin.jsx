@@ -1,25 +1,34 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 export default function AdminLogin() {
-  //   const { t } = useTranslation();
+  const { t } = useTranslation();
   const navigate = useNavigate();
-  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const passwordRef = useRef(null); // ✅ Use ref to read the password
   const ADMIN_PASSWORD = "banubazaar2025";
 
-  // ✅ Clear password field when the component loads
+  // ✅ Clear the input field when the page loads
   useEffect(() => {
-    setPassword("");
+    if (passwordRef.current) {
+      passwordRef.current.value = "";
+    }
   }, []);
+
   const handleLogin = (e) => {
     e.preventDefault();
+    const password = passwordRef.current?.value || ""; // ✅ Read from ref
+
     if (password === ADMIN_PASSWORD) {
       localStorage.setItem("isAdmin", "true");
       navigate("/admin");
     } else {
       setError("❌ Incorrect password");
+      if (passwordRef.current) {
+        passwordRef.current.value = ""; // ✅ Clear the input
+        passwordRef.current.focus(); // ✅ Focus for retry
+      }
     }
   };
 
@@ -37,12 +46,12 @@ export default function AdminLogin() {
               Enter Admin Password
             </label>
             <input
+              ref={passwordRef} // ✅ Use ref instead of state
               type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-pink-500"
               placeholder="Enter password..."
               autoFocus
+              autoComplete="new-password" // ✅ Prevents browser autofill
             />
           </div>
 
