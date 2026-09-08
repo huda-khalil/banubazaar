@@ -32,7 +32,7 @@ export default function Navbar() {
               {t("landing.tagline")}
             </p>
             <p className="text-xs text-pink-400 font-medium mt-0.5">
-              Kabul's Marketplace for Women
+              {t("landing.subtitle")}
             </p>
           </div>
         </Link>
@@ -66,6 +66,7 @@ export default function Navbar() {
               {t("nav.admin")}
             </Link>
           )}
+
           <LanguageToggle />
         </nav>
       </div>
