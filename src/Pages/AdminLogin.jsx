@@ -7,6 +7,7 @@ export default function AdminLogin() {
   const navigate = useNavigate();
   const [error, setError] = useState("");
   const passwordRef = useRef(null); // ✅ Use ref to read the password
+  const [loading, setLoading] = useState(false);
   const ADMIN_PASSWORD = "banubazaar2025";
 
   // ✅ Clear the input field when the page loads
@@ -16,13 +17,15 @@ export default function AdminLogin() {
     }
   }, []);
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
+    setLoading(true);
     const password = passwordRef.current?.value || ""; // ✅ Read from ref
 
     if (password === ADMIN_PASSWORD) {
       localStorage.setItem("isAdmin", "true");
-      navigate("/admin");
+      await navigate("/admin"); // ✅ Wait for navigation
+      //   navigate("/admin");
     } else {
       setError("❌ Incorrect password");
       if (passwordRef.current) {
@@ -50,6 +53,7 @@ export default function AdminLogin() {
               type="password"
               className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-pink-500"
               placeholder="Enter password..."
+              disabled={loading} // ✅ Disable while loading
               autoFocus
               autoComplete="new-password" // ✅ Prevents browser autofill
             />
@@ -63,9 +67,10 @@ export default function AdminLogin() {
 
           <button
             type="submit"
+            disabled={loading} // ✅ Disable while loading
             className="w-full bg-pink-600 text-white py-2 rounded-lg hover:bg-pink-700 transition"
           >
-            Login
+            {loading ? "Logging in..." : "Login"}
           </button>
         </form>
       </div>
