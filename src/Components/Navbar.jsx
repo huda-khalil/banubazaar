@@ -19,20 +19,20 @@ export default function Navbar() {
   return (
     <header className="bg-white shadow-sm border-b border-pink-100 sticky top-0 z-50">
       <div className="max-w-6xl mx-auto px-4 py-3 md:py-4 flex justify-between items-center">
-        {/* Logo — BrandName + translated subtitle */}
+        {/* Logo — Bigger image, tighter gap */}
         <Link
           to="/"
-          className="flex items-center gap-3 hover:opacity-80 transition"
+          className="flex items-center gap-1.5 hover:opacity-80 transition"
         >
           <img
             src={logo}
             alt="BanuBazaar"
-            className="h-10 w-12 md:h-14 md:w-16 object-contain"
+            className="h-14 w-28 md:h-18 md:w-32 object-contain"
           />
           <div>
             <BrandName size="text-xl md:text-2xl" />
             <p className="text-xs text-pink-400 font-medium leading-tight">
-              {t("landing.subtitle")} {/* ✅ TRANSLATED */}
+              {t("landing.subtitle")}
             </p>
           </div>
         </Link>
