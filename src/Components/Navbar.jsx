@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import LanguageToggle from "./LanguageToggle";
@@ -10,11 +10,14 @@ export default function Navbar() {
   const [isAdmin, setIsAdmin] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const isRTL = i18n.language === "fa";
+  const menuRef = useRef(null);
+  const buttonRef = useRef(null);
 
   useEffect(() => {
     const adminStatus = localStorage.getItem("isAdmin") === "true";
     setIsAdmin(adminStatus);
   }, []);
+
   // Close menu when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -37,7 +40,7 @@ export default function Navbar() {
   return (
     <header className="bg-white shadow-sm border-b border-pink-100 sticky top-0 z-50">
       <div className="max-w-6xl mx-auto px-4 py-3 md:py-4 flex justify-between items-center">
-        {/* Logo — flushed left, good spacing */}
+        {/* Logo */}
         <Link
           to="/"
           className="flex items-center gap-0 hover:opacity-80 transition rtl:mr-0 ltr:-ml-4"
@@ -90,6 +93,7 @@ export default function Navbar() {
 
         {/* Mobile Menu Button */}
         <button
+          ref={buttonRef}
           className="md:hidden text-gray-600 hover:text-pink-600 transition p-1"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
           aria-label="Toggle menu"
@@ -112,6 +116,7 @@ export default function Navbar() {
 
       {/* Mobile Navigation */}
       <div
+        ref={menuRef}
         className={`
           md:hidden overflow-hidden transition-all duration-300 ease-in-out
           ${isMenuOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"}
