@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import LanguageToggle from "./LanguageToggle";
+import BrandName from "./BrandName"; // ✅ Import BrandName
 import logo from "../assets/logo.png";
 
 export default function Navbar() {
@@ -18,7 +19,7 @@ export default function Navbar() {
   return (
     <header className="bg-white shadow-sm border-b border-pink-100 sticky top-0 z-50">
       <div className="max-w-6xl mx-auto px-4 py-3 md:py-4 flex justify-between items-center">
-        {/* Logo */}
+        {/* Logo — Now uses BrandName */}
         <Link
           to="/"
           className="flex items-center gap-2 hover:opacity-80 transition"
@@ -29,9 +30,8 @@ export default function Navbar() {
             className="h-10 w-12 md:h-16 md:w-20 object-contain"
           />
           <div>
-            <h1 className="text-lg md:text-2xl font-bold text-pink-600">
-              BanuBazaar
-            </h1>
+            <BrandName size="text-lg md:text-2xl" />{" "}
+            {/* ✅ BrandName in navbar */}
             <p className="text-xs text-gray-500 leading-tight hidden xs:block">
               {t("landing.tagline")}
             </p>
@@ -91,31 +91,32 @@ export default function Navbar() {
         </button>
       </div>
 
-      {/* Mobile Navigation — Slides down from under the header */}
+      {/* Mobile Navigation — Slides from correct side based on language */}
       <div
         className={`
           md:hidden overflow-hidden transition-all duration-300 ease-in-out
           ${isMenuOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"}
+          ${isRTL ? "origin-top-right" : "origin-top-left"}
         `}
       >
         <div className="bg-gray-50/95 backdrop-blur-sm border-t border-gray-100 py-4 px-4 space-y-1 shadow-lg">
           <Link
             to="/home"
-            className="block px-4 py-2.5 rounded-lg text-gray-700 hover:bg-pink-50 hover:text-pink-600 transition"
+            className="block px-4 py-2.5 rounded-lg text-gray-700 hover:bg-pink-50 hover:text-pink-600 transition text-right"
             onClick={() => setIsMenuOpen(false)}
           >
             {t("nav.home")}
           </Link>
           <Link
             to="/submit"
-            className="block px-4 py-2.5 rounded-lg text-pink-600 font-semibold hover:bg-pink-50 transition"
+            className="block px-4 py-2.5 rounded-lg text-pink-600 font-semibold hover:bg-pink-50 transition text-right"
             onClick={() => setIsMenuOpen(false)}
           >
             {t("nav.sell")}
           </Link>
           <Link
             to="/contact"
-            className="block px-4 py-2.5 rounded-lg text-gray-700 hover:bg-pink-50 hover:text-pink-600 transition"
+            className="block px-4 py-2.5 rounded-lg text-gray-700 hover:bg-pink-50 hover:text-pink-600 transition text-right"
             onClick={() => setIsMenuOpen(false)}
           >
             {t("nav.contact")}
@@ -123,7 +124,7 @@ export default function Navbar() {
           {isAdmin && (
             <Link
               to="/admin"
-              className="block px-4 py-2.5 rounded-lg text-gray-400 hover:bg-pink-50 hover:text-pink-600 transition text-sm"
+              className="block px-4 py-2.5 rounded-lg text-gray-400 hover:bg-pink-50 hover:text-pink-600 transition text-sm text-right"
               onClick={() => setIsMenuOpen(false)}
             >
               {t("nav.admin")}
