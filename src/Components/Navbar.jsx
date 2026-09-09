@@ -9,7 +9,6 @@ export default function Navbar() {
   const { t, i18n } = useTranslation();
   const [isAdmin, setIsAdmin] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const isRTL = i18n.language === "fa";
 
   useEffect(() => {
     const adminStatus = localStorage.getItem("isAdmin") === "true";
@@ -19,7 +18,7 @@ export default function Navbar() {
   return (
     <header className="bg-white shadow-sm border-b border-pink-100 sticky top-0 z-50">
       <div className="max-w-6xl mx-auto px-4 py-3 md:py-4 flex justify-between items-center">
-        {/* Logo — BrandName + tagline + subtitle */}
+        {/* Logo — ONE line under BanuBazaar */}
         <Link
           to="/"
           className="flex items-center gap-3 hover:opacity-80 transition"
@@ -31,10 +30,7 @@ export default function Navbar() {
           />
           <div>
             <BrandName size="text-xl md:text-2xl" />
-            <p className="text-xs text-gray-500 leading-tight">
-              {t("landing.tagline")}
-            </p>
-            <p className="text-[10px] text-pink-400 font-medium leading-tight">
+            <p className="text-xs text-pink-400 font-medium leading-tight">
               Kabul's Marketplace for Women
             </p>
           </div>
@@ -93,37 +89,31 @@ export default function Navbar() {
         </button>
       </div>
 
-      {/* Mobile Navigation — Professional Dropdown */}
+      {/* Mobile Navigation — Centered Dropdown with Pink Border */}
       <div
         className={`
           md:hidden overflow-hidden transition-all duration-300 ease-in-out
           ${isMenuOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"}
         `}
       >
-        <div
-          className={`
-            bg-white/95 backdrop-blur-sm border-t border-gray-100 
-            py-4 px-4 space-y-1 shadow-xl rounded-b-2xl
-            ${isRTL ? "text-right" : "text-left"}
-          `}
-        >
+        <div className="bg-white/95 backdrop-blur-sm border-t-2 border-pink-200 shadow-xl rounded-b-2xl mx-4 my-1 p-4 space-y-1">
           <Link
             to="/home"
-            className="block px-4 py-3 rounded-xl text-gray-700 hover:bg-pink-50 hover:text-pink-600 transition font-medium"
+            className="block text-center px-4 py-3 rounded-xl text-gray-700 hover:bg-pink-50 hover:text-pink-600 transition font-medium border border-transparent hover:border-pink-200"
             onClick={() => setIsMenuOpen(false)}
           >
             {t("nav.home")}
           </Link>
           <Link
             to="/submit"
-            className="block px-4 py-3 rounded-xl text-pink-600 font-semibold hover:bg-pink-50 transition"
+            className="block text-center px-4 py-3 rounded-xl text-pink-600 font-semibold hover:bg-pink-50 transition border border-transparent hover:border-pink-200"
             onClick={() => setIsMenuOpen(false)}
           >
             {t("nav.sell")}
           </Link>
           <Link
             to="/contact"
-            className="block px-4 py-3 rounded-xl text-gray-700 hover:bg-pink-50 hover:text-pink-600 transition font-medium"
+            className="block text-center px-4 py-3 rounded-xl text-gray-700 hover:bg-pink-50 hover:text-pink-600 transition font-medium border border-transparent hover:border-pink-200"
             onClick={() => setIsMenuOpen(false)}
           >
             {t("nav.contact")}
@@ -131,13 +121,13 @@ export default function Navbar() {
           {isAdmin && (
             <Link
               to="/admin"
-              className="block px-4 py-3 rounded-xl text-gray-400 hover:bg-pink-50 hover:text-pink-600 transition font-medium text-sm"
+              className="block text-center px-4 py-3 rounded-xl text-gray-400 hover:bg-pink-50 hover:text-pink-600 transition font-medium text-sm border border-transparent hover:border-pink-200"
               onClick={() => setIsMenuOpen(false)}
             >
               {t("nav.admin")}
             </Link>
           )}
-          <div className="px-4 pt-3 mt-2 border-t border-gray-100">
+          <div className="text-center pt-3 mt-2 border-t border-gray-100">
             <LanguageToggle />
           </div>
         </div>
