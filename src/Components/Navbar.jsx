@@ -22,16 +22,16 @@ export default function Navbar() {
         {/* Logo — flushed left, good spacing */}
         <Link
           to="/"
-          className="flex items-center gap-0 hover:opacity-80 transition rtl:ml-0 ltr:-ml-4"
+          className="flex items-center gap-0 hover:opacity-80 transition rtl:mr-0 ltr:-ml-4"
         >
           <img
             src={logo}
             alt="BanuBazaar"
             className={`h-12 w-24 md:h-16 md:w-28 object-contain ${
-              isRTL ? "-mr-4" : "-ml-4"
+              isRTL ? "-mr-6" : "-ml-6"
             }`}
           />
-          <div className={`${isRTL ? "-mr-2" : "-ml-2"}`}>
+          <div className={`${isRTL ? "-mr-4" : "-ml-4"}`}>
             <BrandName size="text-xl md:text-2xl" />
             <p className="text-xs text-pink-400 font-medium leading-tight">
               {t("landing.subtitle")}
