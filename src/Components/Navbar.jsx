@@ -5,9 +5,10 @@ import LanguageToggle from "./LanguageToggle";
 import logo from "../assets/logo.png";
 
 export default function Navbar() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [isAdmin, setIsAdmin] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const isRTL = i18n.language === "fa";
 
   useEffect(() => {
     const adminStatus = localStorage.getItem("isAdmin") === "true";
@@ -15,8 +16,8 @@ export default function Navbar() {
   }, []);
 
   return (
-    <header className="bg-white shadow-sm border-b border-pink-100">
-      <div className="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+    <header className="bg-white shadow-sm border-b border-pink-100 sticky top-0 z-50">
+      <div className="max-w-6xl mx-auto px-4 py-3 md:py-4 flex justify-between items-center">
         {/* Logo */}
         <Link
           to="/"
@@ -25,17 +26,14 @@ export default function Navbar() {
           <img
             src={logo}
             alt="BanuBazaar"
-            className="h-12 w-14 md:h-20 md:w-24 object-contain"
+            className="h-10 w-12 md:h-16 md:w-20 object-contain"
           />
-          <div className="hidden sm:block">
-            <h1 className="text-xl md:text-2xl font-bold text-pink-600">
+          <div>
+            <h1 className="text-lg md:text-2xl font-bold text-pink-600">
               BanuBazaar
             </h1>
-            <p className="text-xs text-gray-500 leading-tight hidden md:block">
+            <p className="text-xs text-gray-500 leading-tight hidden xs:block">
               {t("landing.tagline")}
-            </p>
-            <p className="text-xs text-pink-400 font-medium mt-0.5 hidden lg:block">
-              Kabul's Marketplace for Women
             </p>
           </div>
         </Link>
@@ -73,12 +71,12 @@ export default function Navbar() {
 
         {/* Mobile Menu Button */}
         <button
-          className="md:hidden text-gray-600 hover:text-pink-600 transition"
+          className="md:hidden text-gray-600 hover:text-pink-600 transition p-1"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
           aria-label="Toggle menu"
         >
           <svg
-            className="w-6 h-6"
+            className="w-7 h-7"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -93,26 +91,31 @@ export default function Navbar() {
         </button>
       </div>
 
-      {/* Mobile Navigation */}
-      {isMenuOpen && (
-        <div className="md:hidden bg-white border-t border-gray-100 py-4 px-4 space-y-3">
+      {/* Mobile Navigation — Slides down from under the header */}
+      <div
+        className={`
+          md:hidden overflow-hidden transition-all duration-300 ease-in-out
+          ${isMenuOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"}
+        `}
+      >
+        <div className="bg-gray-50/95 backdrop-blur-sm border-t border-gray-100 py-4 px-4 space-y-1 shadow-lg">
           <Link
             to="/home"
-            className="block text-gray-600 hover:text-pink-600 transition"
+            className="block px-4 py-2.5 rounded-lg text-gray-700 hover:bg-pink-50 hover:text-pink-600 transition"
             onClick={() => setIsMenuOpen(false)}
           >
             {t("nav.home")}
           </Link>
           <Link
             to="/submit"
-            className="block text-pink-600 font-semibold hover:text-pink-700 transition"
+            className="block px-4 py-2.5 rounded-lg text-pink-600 font-semibold hover:bg-pink-50 transition"
             onClick={() => setIsMenuOpen(false)}
           >
             {t("nav.sell")}
           </Link>
           <Link
             to="/contact"
-            className="block text-gray-600 hover:text-pink-600 transition"
+            className="block px-4 py-2.5 rounded-lg text-gray-700 hover:bg-pink-50 hover:text-pink-600 transition"
             onClick={() => setIsMenuOpen(false)}
           >
             {t("nav.contact")}
@@ -120,17 +123,17 @@ export default function Navbar() {
           {isAdmin && (
             <Link
               to="/admin"
-              className="block text-gray-400 hover:text-pink-600 transition text-sm"
+              className="block px-4 py-2.5 rounded-lg text-gray-400 hover:bg-pink-50 hover:text-pink-600 transition text-sm"
               onClick={() => setIsMenuOpen(false)}
             >
               {t("nav.admin")}
             </Link>
           )}
-          <div className="pt-2">
+          <div className="px-4 pt-3 mt-1 border-t border-gray-200/60">
             <LanguageToggle />
           </div>
         </div>
-      )}
+      </div>
     </header>
   );
 }
