@@ -22,14 +22,14 @@ export default function Navbar() {
         {/* Logo — attached to margin, tiny gap */}
         <Link
           to="/"
-          className="flex items-center gap-0 hover:opacity-80 transition"
+          className="flex items-center gap-0 hover:opacity-80 transition -ml-1"
         >
           <img
             src={logo}
             alt="BanuBazaar"
-            className="h-12 w-24 md:h-16 md:w-28 object-contain -ml-4"
+            className="h-12 w-24 md:h-16 md:w-28 object-contain -ml-5"
           />
-          <div className="-ml-2">
+          <div className="-ml-3">
             <BrandName size="text-xl md:text-2xl" />
             <p className="text-xs text-pink-400 font-medium leading-tight">
               {t("landing.subtitle")}
