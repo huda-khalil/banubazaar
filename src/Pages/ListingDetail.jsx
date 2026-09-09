@@ -141,12 +141,12 @@ export default function ListingDetail() {
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
       {/* Back Button */}
-      <Link
-        to="/home"
-        className="text-pink-600 hover:underline inline-block mb-6"
+      <button
+        onClick={handleBack}
+        className="text-pink-600 hover:underline inline-block mb-6 cursor-pointer bg-transparent border-none text-base"
       >
         ← {t("detail.back")}
-      </Link>
+      </button>
 
       <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
         {/* Image Carousel */}
