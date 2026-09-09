@@ -19,17 +19,17 @@ export default function Navbar() {
   return (
     <header className="bg-white shadow-sm border-b border-pink-100 sticky top-0 z-50">
       <div className="max-w-6xl mx-auto px-4 py-3 md:py-4 flex justify-between items-center">
-        {/* Logo — attached to margin, tiny gap */}
+        {/* Logo — Flush left with nav margin, bigger image */}
         <Link
           to="/"
-          className="flex items-center gap-0 hover:opacity-80 transition -ml-2"
+          className="flex items-center gap-0 hover:opacity-80 transition -ml-4"
         >
           <img
             src={logo}
             alt="BanuBazaar"
-            className="h-12 w-24 md:h-16 md:w-28 object-contain -ml-6"
+            className="h-16 w-32 md:h-20 md:w-40 object-contain -ml-4"
           />
-          <div className="-ml-4">
+          <div className="-ml-3">
             <BrandName size="text-xl md:text-2xl" />
             <p className="text-xs text-pink-400 font-medium leading-tight">
               {t("landing.subtitle")}
@@ -90,7 +90,7 @@ export default function Navbar() {
         </button>
       </div>
 
-      {/* Mobile Navigation — Centered Dropdown with Pink Border */}
+      {/* Mobile Navigation */}
       <div
         className={`
           md:hidden overflow-hidden transition-all duration-300 ease-in-out
