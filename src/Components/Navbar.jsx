@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import LanguageToggle from "./LanguageToggle";
 import BrandName from "./BrandName";
 import logo from "../assets/logo3.jpg";
+import { isAdminAuthenticated } from "../lib/auth";
 
 export default function Navbar() {
   const { t, i18n } = useTranslation();
@@ -13,12 +14,22 @@ export default function Navbar() {
   const menuRef = useRef(null);
   const buttonRef = useRef(null);
 
+  // ✅ Check admin status on mount (USING auth helper)
   useEffect(() => {
-    const adminStatus = localStorage.getItem("isAdmin") === "true";
-    setIsAdmin(adminStatus);
+    setIsAdmin(isAdminAuthenticated());
   }, []);
 
-  // Close menu when clicking outside
+  // ✅ Re-check when tab regains focus
+  useEffect(() => {
+    const handleFocus = () => {
+      setIsAdmin(isAdminAuthenticated());
+    };
+
+    window.addEventListener("focus", handleFocus);
+    return () => window.removeEventListener("focus", handleFocus);
+  }, []);
+
+  // ✅ Close menu when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (

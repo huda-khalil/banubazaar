@@ -2,8 +2,10 @@ import React, { useState, useEffect } from "react";
 import { supabase } from "../lib/supabase";
 import { useTranslation } from "react-i18next";
 import { Link, Navigate } from "react-router-dom";
+import { isAdminAuthenticated, logout } from "../lib/auth";
 
 export default function Admin() {
+  const isAdmin = isAdminAuthenticated();
   const { t } = useTranslation();
   const [reports, setReports] = useState([]);
   const [soldListings, setSoldListings] = useState([]);
@@ -33,19 +35,22 @@ export default function Admin() {
   ];
   const CONDITIONS = ["New", "Like New", "Used", "Damaged"];
 
-  // ✅ Check if admin is logged in
-  const isAdmin = localStorage.getItem("isAdmin") === "true";
-
   // ✅ Redirect to login if not authenticated
   if (!isAdmin) {
     return <Navigate to="/admin-login" replace />;
   }
 
-  // ✅ Logout function
+  // Update logout function:
   const handleLogout = () => {
-    localStorage.removeItem("isAdmin");
+    logout();
     window.location.href = "/admin-login";
   };
+
+  // ✅ Logout function
+  //   const handleLogout = () => {
+  //     localStorage.removeItem("isAdmin");
+  //     window.location.href = "/admin-login";
+  //   };
 
   // Fetch functions
   const fetchSoldListings = async () => {

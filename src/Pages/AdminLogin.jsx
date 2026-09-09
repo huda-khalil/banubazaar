@@ -8,15 +8,22 @@ export default function AdminLogin() {
   const ADMIN_PASSWORD = "banubazaar2025";
 
   // ✅ Clear any existing admin flag when login page loads
+  //   useEffect(() => {
+  //     localStorage.removeItem("isAdmin");
+  //   }, []);
   useEffect(() => {
     localStorage.removeItem("isAdmin");
+    localStorage.removeItem("adminExpiry");
   }, []);
 
   const handleLogin = (e) => {
     e.preventDefault();
 
     if (password === ADMIN_PASSWORD) {
+      // ✅ Set admin flag + expiry time (30 minutes from now)
+      const expiryTime = Date.now() + 30 * 60 * 1000; // 30 minutes
       localStorage.setItem("isAdmin", "true");
+      localStorage.setItem("adminExpiry", expiryTime.toString());
       navigate("/admin", { replace: true });
     } else {
       setError("❌ Incorrect password");
