@@ -1,9 +1,11 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
+import { isAdminAuthenticated } from "../lib/auth";
 
 export default function ProtectedRoute({ children }) {
+  const isAdmin = isAdminAuthenticated();
   // Check if admin is logged in
-  const isAdmin = localStorage.getItem("isAdmin") === "true";
+  //   const isAdmin = localStorage.getItem("isAdmin") === "true";
 
   // If not logged in, redirect to home
   if (!isAdmin) {
