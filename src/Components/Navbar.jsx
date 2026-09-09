@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import LanguageToggle from "./LanguageToggle";
 import BrandName from "./BrandName";
-import logo from "../assets/logo.png";
+import logo from "../assets/logo3.jpg";
 
 export default function Navbar() {
   const { t, i18n } = useTranslation();
