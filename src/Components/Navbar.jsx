@@ -27,9 +27,9 @@ export default function Navbar() {
           <img
             src={logo}
             alt="BanuBazaar"
-            className="h-12 w-24 md:h-16 md:w-28 object-contain -ml-3"
+            className="h-12 w-24 md:h-16 md:w-28 object-contain -ml-4"
           />
-          <div className="-ml-1">
+          <div className="-ml-2">
             <BrandName size="text-xl md:text-2xl" />
             <p className="text-xs text-pink-400 font-medium leading-tight">
               {t("landing.subtitle")}
