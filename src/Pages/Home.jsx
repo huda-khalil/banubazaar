@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { supabase } from "../lib/supabase";
 import Toast from "../Components/Toast";
 import ConfirmModal from "../Components/ConfirmModal";
+import { useLocation } from "react-router-dom";
 
 const CATEGORIES = [
   "All",
@@ -22,6 +23,19 @@ export default function Home() {
   const [filteredListings, setFilteredListings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState("All");
+  const location = useLocation();
+
+  useEffect(() => {
+    // If we have a saved scroll position, scroll to it
+    if (location.state?.scrollTo) {
+      window.scrollTo({
+        top: location.state.scrollTo,
+        behavior: "smooth",
+      });
+      // Clear the state so it doesn't re-scroll on refresh
+      window.history.replaceState({}, document.title);
+    }
+  }, [location]);
 
   useEffect(() => {
     fetchListings();
@@ -194,7 +208,8 @@ export default function Home() {
             <Link
               to={`/listing/${item.id}`}
               key={item.id}
-              className="relative bg-white rounded-xl shadow-md hover:shadow-xl transition overflow-hidden block hover:scale-[1.02]"
+              state={{ fromHome: true, scrollY: window.scrollY }} // ✅ Pass scroll position
+              className="bg-white rounded-xl shadow-md hover:shadow-xl transition overflow-hidden block hover:scale-[1.02]"
             >
               {/* Sold Badge  */}
               {item.status === "sold" && (

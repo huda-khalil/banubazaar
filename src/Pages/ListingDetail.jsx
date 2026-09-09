@@ -5,6 +5,7 @@ import { supabase } from "../lib/supabase";
 import ReportModal from "../Components/ReportModal";
 import ShareButtons from "../Components/ShareButtons";
 import Toast from "../Components/Toast";
+import { useLocation } from "react-router-dom";
 
 export default function ListingDetail() {
   const [toast, setToast] = useState(null);
@@ -15,6 +16,19 @@ export default function ListingDetail() {
   const [error, setError] = useState("");
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [showReportModal, setShowReportModal] = useState(false);
+  const location = useLocation();
+  // Check if we came from homepage
+  const fromHome = location.state?.fromHome || false;
+  const savedScrollY = location.state?.scrollY || 0;
+  //  Handle back button
+  const handleBack = () => {
+    if (fromHome) {
+      // Navigate back to home with the saved scroll position
+      navigate("/home", { state: { scrollTo: savedScrollY } });
+    } else {
+      navigate("/home");
+    }
+  };
 
   useEffect(() => {
     fetchListing();
@@ -106,12 +120,18 @@ export default function ListingDetail() {
     return (
       <div className="max-w-4xl mx-auto px-4 py-16 text-center">
         <p className="text-red-600 text-lg">{t("detail.notFound")}</p>
-        <Link
-          to="/home"
-          className="text-pink-600 hover:underline mt-4 inline-block"
+        <button
+          onClick={() => {
+            if (window.history.state?.fromHome) {
+              window.history.back();
+            } else {
+              window.location.href = "/home";
+            }
+          }}
+          className="text-pink-600 hover:underline mt-4 inline-block cursor-pointer"
         >
           ← {t("detail.back")}
-        </Link>
+        </button>
       </div>
     );
   }
