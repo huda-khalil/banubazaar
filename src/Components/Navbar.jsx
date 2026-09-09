@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import LanguageToggle from "./LanguageToggle";
 import BrandName from "./BrandName";
@@ -7,12 +7,18 @@ import logo from "../assets/logo3.jpg";
 import { isAdminAuthenticated } from "../lib/auth";
 
 export default function Navbar() {
+  const location = useLocation();
+
   const { t, i18n } = useTranslation();
   const [isAdmin, setIsAdmin] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const isRTL = i18n.language === "fa";
   const menuRef = useRef(null);
   const buttonRef = useRef(null);
+
+  useEffect(() => {
+    setIsAdmin(isAdminAuthenticated());
+  }, [location]); // ✅ Re-check on every route change
 
   // ✅ Check admin status on mount (USING auth helper)
   useEffect(() => {

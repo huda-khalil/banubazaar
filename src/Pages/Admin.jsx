@@ -43,7 +43,7 @@ export default function Admin() {
   // Update logout function:
   const handleLogout = () => {
     logout();
-    window.location.href = "/admin-login";
+    window.location.replace("/admin-login"); // ✅ Replaces history, no back button access
   };
 
   // ✅ Logout function

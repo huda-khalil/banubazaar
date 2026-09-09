@@ -1,17 +1,20 @@
-import React from "react";
-import { Navigate } from "react-router-dom";
+import React, { useEffect } from "react";
 import { isAdminAuthenticated } from "../lib/auth";
 
 export default function ProtectedRoute({ children }) {
   const isAdmin = isAdminAuthenticated();
-  // Check if admin is logged in
-  //   const isAdmin = localStorage.getItem("isAdmin") === "true";
 
-  // If not logged in, redirect to home
+  useEffect(() => {
+    // If not authenticated, force a full page redirect
+    if (!isAdmin) {
+      window.location.href = "/admin-login";
+    }
+  }, [isAdmin]);
+
+  // If not authenticated, return null (prevents flash of admin content)
   if (!isAdmin) {
-    return <Navigate to="/" replace />;
+    return null;
   }
 
-  // If logged in, render the children (Admin component)
   return children;
 }
