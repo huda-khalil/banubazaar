@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { supabase } from "../lib/supabase";
 import ReportModal from "../Components/ReportModal";
@@ -17,6 +17,8 @@ export default function ListingDetail() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [showReportModal, setShowReportModal] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate(); // ✅ Add this
+
   // Check if we came from homepage
   const fromHome = location.state?.fromHome || false;
   const savedScrollY = location.state?.scrollY || 0;
