@@ -9,6 +9,7 @@ export default function Navbar() {
   const { t, i18n } = useTranslation();
   const [isAdmin, setIsAdmin] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const isRTL = i18n.language === "fa";
 
   useEffect(() => {
     const adminStatus = localStorage.getItem("isAdmin") === "true";
@@ -18,7 +19,7 @@ export default function Navbar() {
   return (
     <header className="bg-white shadow-sm border-b border-pink-100 sticky top-0 z-50">
       <div className="max-w-6xl mx-auto px-4 py-3 md:py-4 flex justify-between items-center">
-        {/* Logo — ONE line under BanuBazaar */}
+        {/* Logo — BrandName + translated subtitle */}
         <Link
           to="/"
           className="flex items-center gap-3 hover:opacity-80 transition"
@@ -31,7 +32,7 @@ export default function Navbar() {
           <div>
             <BrandName size="text-xl md:text-2xl" />
             <p className="text-xs text-pink-400 font-medium leading-tight">
-              Kabul's Marketplace for Women
+              {t("landing.subtitle")} {/* ✅ TRANSLATED */}
             </p>
           </div>
         </Link>
