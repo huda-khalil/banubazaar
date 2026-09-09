@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function AdminLogin() {
@@ -7,16 +7,20 @@ export default function AdminLogin() {
   const [error, setError] = useState("");
   const ADMIN_PASSWORD = "banubazaar2025";
 
+  // ✅ Clear any existing admin flag when login page loads
+  useEffect(() => {
+    localStorage.removeItem("isAdmin");
+  }, []);
+
   const handleLogin = (e) => {
     e.preventDefault();
 
     if (password === ADMIN_PASSWORD) {
       localStorage.setItem("isAdmin", "true");
       navigate("/admin", { replace: true });
-      // ✅ DO NOT clear password — page will unmount
     } else {
       setError("❌ Incorrect password");
-      setPassword(""); // ✅ Clear on error only
+      setPassword("");
     }
   };
 
