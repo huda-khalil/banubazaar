@@ -164,7 +164,8 @@
     "whatsappButton": "Message us on WhatsApp →",
     "email": "Email",
     "emailDesc": "Send us an email and we'll respond within 24 hours",
-    "responseTime": "We aim to respond to all messages within 24 hours."
+    "responseTime": "We aim to respond to all messages within 24 hours.",
+    "whatsappUnavailable": "WhatsApp support is currently unavailable."
   },
   "footer": {
     "about": "About",

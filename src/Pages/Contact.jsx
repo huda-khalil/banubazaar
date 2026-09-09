@@ -1,6 +1,5 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
 
 export default function Contact() {
   const { t } = useTranslation();
@@ -13,8 +12,8 @@ export default function Contact() {
       <p className="text-gray-500 mb-8">{t("contact.subtitle")}</p>
 
       <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8 space-y-6">
-        {/* WhatsApp */}
-        <div className="flex items-start gap-4">
+        {/* WhatsApp — Visual Only, No Link */}
+        <div className="flex items-start gap-4 opacity-75 cursor-default">
           <div className="bg-green-100 p-3 rounded-full">
             <svg
               className="w-6 h-6 text-green-600"
@@ -29,18 +28,13 @@ export default function Contact() {
               {t("contact.whatsapp")}
             </h3>
             <p className="text-sm text-gray-500">{t("contact.whatsappDesc")}</p>
-            <a
-              href="https://wa.me/93788123456"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-pink-600 text-sm font-medium hover:underline mt-1 inline-block"
-            >
-              {t("contact.whatsappButton")}
-            </a>
+            <p className="text-sm text-gray-400 mt-1 italic">
+              {t("contact.whatsappUnavailable")}
+            </p>
           </div>
         </div>
 
-        {/* Email */}
+        {/* Email — Still Clickable */}
         <div className="flex items-start gap-4">
           <div className="bg-pink-100 p-3 rounded-full">
             <svg
@@ -64,7 +58,7 @@ export default function Contact() {
               href="mailto:info@banubazaar.com"
               className="text-pink-600 text-sm font-medium hover:underline mt-1 inline-block"
             >
-              info@banubazaar.com
+              banubazaarkabul@gmail.com
             </a>
           </div>
         </div>
