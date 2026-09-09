@@ -30,6 +30,7 @@ i18n
   .init({
     resources,
     fallbackLng: "en",
+    lng: savedLanguage,
     interpolation: {
       escapeValue: false,
     },

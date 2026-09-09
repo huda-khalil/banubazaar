@@ -31,6 +31,10 @@ export default function ListingDetail() {
       navigate("/home");
     }
   };
+  useEffect(() => {
+    // Scroll to top when detail page loads
+    window.scrollTo(0, 0);
+  }, []);
 
   useEffect(() => {
     fetchListing();
