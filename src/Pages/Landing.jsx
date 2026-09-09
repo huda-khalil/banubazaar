@@ -86,12 +86,14 @@ export default function Landing() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="text-4xl md:text-5xl font-bold text-gray-800 mb-4"
+          className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-800 mb-4"
         >
-          <span dir="ltr" className="inline">
-            {t("landing.welcomeBefore")}
-            <BrandName size="text-4xl md:text-5xl" />
-            {t("landing.welcomeAfter")}
+          <span className="block sm:inline">
+            <span className="block sm:inline">
+              {t("landing.welcomeBefore")}
+            </span>
+            <BrandName size="text-3xl sm:text-4xl md:text-5xl" />
+            <span className="block sm:inline">{t("landing.welcomeAfter")}</span>
           </span>
         </motion.h1>
 
