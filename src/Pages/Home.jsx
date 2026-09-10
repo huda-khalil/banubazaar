@@ -30,7 +30,7 @@ export default function Home() {
     if (location.state?.scrollTo) {
       window.scrollTo({
         top: location.state.scrollTo,
-        behavior: "smooth",
+        behavior: "instant",
       });
       // Clear the state so it doesn't re-scroll on refresh
       window.history.replaceState({}, document.title);
