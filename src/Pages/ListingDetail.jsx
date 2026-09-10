@@ -24,12 +24,7 @@ export default function ListingDetail() {
   const savedScrollY = location.state?.scrollY || 0;
   //  Handle back button
   const handleBack = () => {
-    if (fromHome) {
-      // Navigate back to home with the saved scroll position
-      navigate("/home", { state: { scrollTo: savedScrollY } });
-    } else {
-      navigate("/home");
-    }
+    navigate("/home", { state: { fromDetail: true } }); // ✅ Just a flag
   };
   useEffect(() => {
     // Scroll to top when detail page loads

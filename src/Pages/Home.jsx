@@ -25,19 +25,27 @@ export default function Home() {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const location = useLocation();
 
+  // ✅ Save scroll position continuously as user scrolls
   useEffect(() => {
-    // ✅ Only scroll after listings are loaded
-    if (!loading && location.state?.scrollTo) {
-      const targetY = location.state.scrollTo;
-      // Use requestAnimationFrame to ensure DOM is fully rendered
-      requestAnimationFrame(() => {
-        window.scrollTo({
-          top: targetY,
-          behavior: "instant",
+    const handleScroll = () => {
+      sessionStorage.setItem("homeScrollY", window.scrollY.toString());
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+  // ✅ Restore scroll position when coming back
+  useEffect(() => {
+    if (!loading && location.state?.fromDetail) {
+      const savedY = sessionStorage.getItem("homeScrollY");
+      if (savedY) {
+        requestAnimationFrame(() => {
+          window.scrollTo({
+            top: parseInt(savedY),
+            behavior: "instant",
+          });
         });
-        // Clear the state so it doesn't re-scroll on refresh
-        window.history.replaceState({}, document.title);
-      });
+      }
     }
   }, [loading, location]);
 
@@ -212,7 +220,7 @@ export default function Home() {
             <Link
               to={`/listing/${item.id}`}
               key={item.id}
-              state={{ fromHome: true, scrollY: window.scrollY }} // ✅ Pass scroll position
+              state={{ fromHome: true }} // ✅ Just a flag, no scroll value
               className="bg-white rounded-xl shadow-md hover:shadow-xl transition overflow-hidden block hover:scale-[1.02]"
             >
               {/* Sold Badge  */}
