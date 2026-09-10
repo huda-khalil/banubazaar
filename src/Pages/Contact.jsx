@@ -1,11 +1,19 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 
 export default function Contact() {
   const { t } = useTranslation();
 
   return (
     <div className="max-w-3xl mx-auto px-4 py-12">
+      {/* ✅ Back Button */}
+      <Link
+        to="/home"
+        className="text-pink-600 hover:underline inline-block mb-6 text-sm font-medium"
+      >
+        ← {t("contact.back")}
+      </Link>
       <h1 className="text-3xl font-bold text-gray-800 mb-2">
         {t("contact.title")}
       </h1>

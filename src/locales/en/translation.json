@@ -8,8 +8,8 @@
   "landing": {
     "welcomeBefore": "Welcome to ",
     "welcomeAfter": "",
-    "tagline": "Sell what you don't need. Buy what you LOVE!",
-    "taglineExtra1": "Don't let your beautiful things gather dust. Give them a new story.",
+    "tagline": "The dress you wore once, the laptop you've moved on from, the dishes you never use — give them a new story.",
+    "taglineExtra1": "Every item has a story. Pass it on — someone else's story starts with yours.",
     "taglineExtra2": "Afghan women don't waste — we reimagine.",
     "subtitle": "Kabul's Marketplace for Women",
     "startSelling": "Start Selling",
@@ -165,7 +165,8 @@
     "email": "Email",
     "emailDesc": "Send us an email and we'll respond within 24 hours",
     "responseTime": "We aim to respond to all messages within 24 hours.",
-    "whatsappUnavailable": "WhatsApp support is currently unavailable."
+    "whatsappUnavailable": "WhatsApp support is currently unavailable.",
+    "back": "Back to Home"
   },
   "footer": {
     "about": "About",
