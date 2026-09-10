@@ -52,6 +52,54 @@ export default function ListingDetail() {
       setLoading(false);
     }
   };
+  const getContactUrl = (stored) => {
+    if (!stored) return "#";
+
+    const [platform, handle] = stored.split(":");
+
+    switch (platform) {
+      case "instagram":
+        return `https://instagram.com/${handle.replace(/^@/, "")}`;
+      case "facebook":
+        return `https://facebook.com/${handle}`;
+      case "email":
+        return `mailto:${handle}`;
+      default:
+        return `https://instagram.com/${stored.replace(/^@/, "")}`;
+    }
+  };
+
+  const getContactLabel = (stored) => {
+    if (!stored) return "Contact";
+    const [platform] = stored.split(":");
+
+    switch (platform) {
+      case "instagram":
+        return "Instagram";
+      case "facebook":
+        return "Facebook";
+      case "email":
+        return "Email";
+      default:
+        return "Contact";
+    }
+  };
+
+  const getContactIcon = (stored) => {
+    if (!stored) return "📱";
+    const [platform] = stored.split(":");
+
+    switch (platform) {
+      case "instagram":
+        return "📷";
+      case "facebook":
+        return "👤";
+      case "email":
+        return "✉️";
+      default:
+        return "📱";
+    }
+  };
   const nextImage = () => {
     if (!listing?.images?.length) return;
 
@@ -272,15 +320,18 @@ export default function ListingDetail() {
                 <p className="font-medium text-gray-800">
                   {listing.seller_name}
                 </p>
-                <p className="text-sm text-gray-500">{listing.seller_phone}</p>
+                <p className="text-sm text-gray-500">
+                  {listing.seller_phone?.split(":")[1] || listing.seller_phone}
+                </p>
               </div>
               <a
-                href={`https://wa.me/93${listing.seller_phone.replace(/\D/g, "")}`}
+                href={getContactUrl(listing.seller_phone)}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-semibold transition"
+                className="bg-pink-600 hover:bg-pink-700 text-white px-4 py-2 rounded-lg text-sm font-semibold transition"
               >
-                📱 {t("detail.contact")}
+                {getContactIcon(listing.seller_phone)} {t("detail.contactOn")}{" "}
+                {getContactLabel(listing.seller_phone)}
               </a>
             </div>
 

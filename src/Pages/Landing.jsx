@@ -112,7 +112,7 @@ export default function Landing() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.5 }}
-          className="text-lg md:text-xl text-gray-800 font-bold mb-1"
+          className="text-lg md:text-xl font-bold mb-1 bg-gradient-to-r from-rose-600 via-pink-700 to-black bg-[length:200%_auto] bg-clip-text text-transparent animate-gradient"
         >
           {t("landing.taglineExtra1")}
         </motion.p>

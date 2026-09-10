@@ -74,10 +74,10 @@
     "namePlaceholder": "e.g., Fatima Karimi",
     "phonePlaceholder": "e.g., 0788 123 456",
     "locationPlaceholder": "e.g., Karte Parwan, Kabul",
-    "titlePlaceholder": "e.g., iPhone 12 Pro - 256GB",
+    "titlePlaceholder": "e.g., engagement dress",
     "selectCategory": "Select...",
     "selectCondition": "Select...",
-    "pricePlaceholder": "e.g., 15000",
+    "pricePlaceholder": "e.g., 1500",
     "descriptionPlaceholder": "Describe your item, including any defects or special features...",
     "uploading": "Uploading...",
     "uploadInstructions": "Click to upload photos (max 5)",
@@ -92,18 +92,23 @@
     "categoryBooks": "Books",
     "categoryKids": "Kids",
     "categoryArt": "Artist's Corner",
+    "contact": "How can buyers reach you?",
+    "contactPlaceholder": "@your_username",
+    "contactEmailPlaceholder": "your@email.com",
+    "contactHint": "Choose a platform and enter your username or email.",
     "categoryOther": "Other"
   },
   "detail": {
     "back": "Back to Products",
     "description": "Description",
     "seller": "Seller Information",
-    "contact": "Contact on WhatsApp",
+    "contact": "Contact on Social Media",
     "posted": "Posted on",
     "loading": "Loading...",
     "notFound": "Item not found",
     "noDescription": "No description provided.",
-    "report": "Report Listing"
+    "report": "Report Listing",
+    "contactOn": "Contact on"
   },
   "admin": {
     "title": "Admin Dashboard",

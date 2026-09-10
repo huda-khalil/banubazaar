@@ -699,14 +699,17 @@ export default function Admin() {
                             {t("admin.price")}
                           </label>
                           <input
-                            type="number"
+                            type="text"
+                            inputMode="numeric"
+                            pattern="[0-9]*"
                             value={editForm.price}
-                            onChange={(e) =>
-                              setEditForm({
-                                ...editForm,
-                                price: e.target.value,
-                              })
-                            }
+                            onChange={(e) => {
+                              const value = e.target.value.replace(
+                                /[^0-9]/g,
+                                "",
+                              );
+                              setEditForm({ ...editForm, price: value });
+                            }}
                             className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-pink-500"
                           />
                         </div>

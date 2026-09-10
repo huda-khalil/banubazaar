@@ -199,3 +199,19 @@ body {
 [dir="rtl"] .carousel-arrow-next .arrow-icon {
   transform: scaleX(-1);
 }
+
+@keyframes gradientMove {
+  0% {
+    background-position: 0% center;
+  }
+  50% {
+    background-position: 100% center;
+  }
+  100% {
+    background-position: 0% center;
+  }
+}
+
+.animate-gradient {
+  animation: gradientMove 4s ease-in-out infinite;
+}

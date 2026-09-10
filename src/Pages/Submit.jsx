@@ -28,6 +28,7 @@ export default function Submit() {
     sellerName: "",
     sellerPhone: "",
     sellerLocation: "",
+    socialPlatform: "instagram",
     category: "",
     condition: "",
     price: "",
@@ -89,6 +90,7 @@ export default function Submit() {
       const { data, error } = await supabase.from("listings").insert([
         {
           seller_name: formData.sellerName,
+          seller_phone: `${formData.socialPlatform}:${formData.sellerPhone}`, // ✅ Save with prefix
           seller_phone: formData.sellerPhone,
           seller_location: formData.sellerLocation,
           category: formData.category,
@@ -108,6 +110,7 @@ export default function Submit() {
         sellerName: "",
         sellerPhone: "",
         sellerLocation: "",
+        socialPlatform: "instagram", // ✅ Reset
         category: "",
         condition: "",
         price: "",
@@ -175,18 +178,42 @@ export default function Submit() {
 
           <div className="mt-3">
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              {t("submit.phone")} *
+              {t("submit.contact")} *
             </label>
-            <input
-              type="tel"
-              required
-              value={formData.sellerPhone}
-              onChange={(e) =>
-                setFormData({ ...formData, sellerPhone: e.target.value })
-              }
-              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-pink-500"
-              placeholder={t("submit.phonePlaceholder")}
-            />
+            <div className="flex gap-2">
+              {/* Platform Dropdown */}
+              <select
+                required
+                value={formData.socialPlatform || "instagram"}
+                onChange={(e) =>
+                  setFormData({ ...formData, socialPlatform: e.target.value })
+                }
+                className="px-3 py-2 border rounded-lg focus:ring-2 focus:ring-pink-500 bg-white"
+              >
+                <option value="instagram">📷 Instagram</option>
+                <option value="facebook">👤 Facebook</option>
+                <option value="email">✉️ Email</option>
+              </select>
+
+              {/* Handle / Email Input */}
+              <input
+                type="text"
+                required
+                value={formData.sellerPhone}
+                onChange={(e) =>
+                  setFormData({ ...formData, sellerPhone: e.target.value })
+                }
+                className="flex-1 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-pink-500"
+                placeholder={
+                  formData.socialPlatform === "email"
+                    ? t("submit.contactEmailPlaceholder")
+                    : t("submit.contactPlaceholder")
+                }
+              />
+            </div>
+            <p className="text-xs text-gray-400 mt-1 italic">
+              💡 {t("submit.contactHint")}
+            </p>
           </div>
 
           <div className="mt-3">
@@ -275,16 +302,23 @@ export default function Submit() {
               {t("submit.price")} *
             </label>
             <input
-              type="number"
+              type="text"
+              inputMode="numeric"
               required
-              min="0"
+              pattern="[0-9]*"
               value={formData.price}
-              onChange={(e) =>
-                setFormData({ ...formData, price: e.target.value })
-              }
+              onChange={(e) => {
+                // ✅ Only allow numbers
+                const value = e.target.value.replace(/[^0-9]/g, "");
+                setFormData({ ...formData, price: value });
+              }}
               className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-pink-500"
               placeholder={t("submit.pricePlaceholder")}
             />
+            {/* ✅ Price encouragement line */}
+            <p className="text-xs text-pink-500 mt-1 italic">
+              💡 {t("submit.priceHint")}
+            </p>
           </div>
 
           <div className="mt-3">
