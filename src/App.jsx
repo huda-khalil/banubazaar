@@ -12,6 +12,8 @@ import { trackPageView } from "./lib/analytics";
 import Contact from "./Pages/Contact";
 import ProtectedRoute from "./Components/ProtectedRoute";
 import AdminLogin from "./Pages/AdminLogin";
+import About from "./Pages/About";
+import Terms from "./Pages/Terms";
 
 function AppContent() {
   const location = useLocation();
@@ -43,6 +45,8 @@ function AppContent() {
           />
           {/* ✅ Catch-all route — redirects to home if no match */}
           <Route path="*" element={<Landing />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/terms" element={<Terms />} />
         </Routes>
       </main>
       <Footer />

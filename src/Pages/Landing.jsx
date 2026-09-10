@@ -102,7 +102,7 @@ export default function Landing() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.4 }}
-          className="text-xl md:text-2xl text-pink-600 font-semibold mb-2"
+          className="text-base md:text-lg text-pink-600 font-medium mb-2"
         >
           {t("landing.tagline")}
         </motion.p>
@@ -112,7 +112,7 @@ export default function Landing() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.5 }}
-          className="text-md md:text-lg text-gray-600 italic mb-1 shine-subtle"
+          className="text-lg md:text-xl text-gray-800 font-bold mb-1"
         >
           {t("landing.taglineExtra1")}
         </motion.p>

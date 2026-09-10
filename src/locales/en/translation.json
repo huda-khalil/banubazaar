@@ -8,8 +8,8 @@
   "landing": {
     "welcomeBefore": "Welcome to ",
     "welcomeAfter": "",
-    "tagline": "The dress you wore once, the laptop you've moved on from, the dishes you never use — give them a new story.",
-    "taglineExtra1": "Every item has a story. Pass it on — someone else's story starts with yours.",
+    "tagline": "Turn what you don't use into income, and joy for someone else!",
+    "taglineExtra1": "With every sale, you earn income and gift a smile.",
     "taglineExtra2": "Afghan women don't waste — we reimagine.",
     "subtitle": "Kabul's Marketplace for Women",
     "startSelling": "Start Selling",
@@ -177,5 +177,27 @@
     "contact": "Contact",
     "privacy": "Privacy",
     "terms": "Terms"
+  },
+  "about": {
+    "title": "About BanuBazaar",
+    "intro": "BanuBazaar is a marketplace built for Afghan women — a safe, simple place to buy and sell pre-loved items.",
+    "mission": "We believe that things you no longer need can bring joy to someone else. A dress, a laptop, a set of dishes — every item has a story. BanuBazaar gives it a new chapter.",
+    "point1": "Help women turn unused items into income",
+    "point2": "Support Afghan women artists and creators",
+    "point3": "Build a trusted community of buyers and sellers",
+    "disclaimer": "BanuBazaar is a listing platform only. We connect buyers and sellers — but all transactions happen directly between them.",
+    "thanks": "🌸 Thank you for being part of our story."
+  },
+  "terms": {
+    "title": "Terms of Use",
+    "item1": "1. BanuBazaar is a listing platform only. We do not handle payments, deliveries, or transactions.",
+    "item2": "2. All transactions happen directly between buyers and sellers. BanuBazaar is not responsible for any disputes, losses, or issues.",
+    "item3": "3. Users must be honest about the items they list.",
+    "item4Title": "4. Safety first:",
+    "item4a": "Always meet in public places",
+    "item4b": "Bring a friend (mahram) when possible",
+    "item4c": "Never share personal information, banking details, or your home/work address",
+    "item5": "5. BanuBazaar reserves the right to remove any listing that violates our guidelines.",
+    "thanks": "By using BanuBazaar, you agree to these terms."
   }
 }
