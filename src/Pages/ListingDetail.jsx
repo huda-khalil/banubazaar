@@ -91,8 +91,10 @@ export default function ListingDetail() {
     const map = {
       Electronics: t("home.categories.electronics"),
       Clothing: t("home.categories.clothing"),
+      Kids: t("home.categories.kids"),
       "Home Goods": t("home.categories.home"),
       Books: t("home.categories.books"),
+      Art: t("home.categories.art"),
       Other: t("home.categories.other"),
     };
     return map[categoryKey] || categoryKey;

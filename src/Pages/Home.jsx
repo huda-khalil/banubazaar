@@ -9,9 +9,11 @@ import { useLocation } from "react-router-dom";
 const CATEGORIES = [
   "All",
   "Clothing",
+  "Kids",
   "Electronics",
   "Home Goods",
   "Books",
+  "Artist's Corner",
   "Other",
 ];
 
@@ -87,9 +89,11 @@ export default function Home() {
     const map = {
       All: t("home.categories.all"),
       Clothing: t("home.categories.clothing"),
+      Kids: t("home.categories.kids"),
       Electronics: t("home.categories.electronics"),
       "Home Goods": t("home.categories.home"),
       Books: t("home.categories.books"),
+      Art: t("home.categories.art"),
       Other: t("home.categories.other"),
     };
     return map[categoryKey] || categoryKey;
@@ -189,13 +193,22 @@ export default function Home() {
           <button
             key={cat}
             onClick={() => setSelectedCategory(cat)}
-            className={`px-4 py-2 rounded-full text-sm font-medium transition ${
-              selectedCategory === cat
-                ? "bg-pink-600 text-white"
-                : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-            }`}
+            className={`
+      px-4 py-2 rounded-full text-sm font-medium transition
+      ${
+        cat === "Art"
+          ? selectedCategory === cat
+            ? "bg-gradient-to-r from-pink-500 to-purple-500 text-white shadow-lg"
+            : "bg-gradient-to-r from-pink-100 to-purple-100 text-pink-700 border border-pink-300 hover:from-pink-200 hover:to-purple-200"
+          : selectedCategory === cat
+            ? "bg-pink-600 text-white"
+            : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+      }
+    `}
           >
-            {getCategoryLabel(cat)}
+            {cat === "Art"
+              ? `🎨 ${getCategoryLabel(cat)}`
+              : getCategoryLabel(cat)}
           </button>
         ))}
       </div>

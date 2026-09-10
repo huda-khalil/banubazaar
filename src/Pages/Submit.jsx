@@ -11,6 +11,8 @@ export default function Submit() {
     { key: "Clothing", label: t("submit.categoryClothing") },
     { key: "Home Goods", label: t("submit.categoryHome") },
     { key: "Books", label: t("submit.categoryBooks") },
+    { key: "Kids", label: t("submit.categoryKids") },
+    { key: "Artist's Corner", label: t("submit.categoryArt") },
     { key: "Other", label: t("submit.categoryOther") },
   ];
 

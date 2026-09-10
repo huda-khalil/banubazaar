@@ -23,6 +23,8 @@
       "electronics": "Electronics",
       "home": "Home Goods",
       "books": "Books",
+      "kids": "Kids",
+      "art": "Artist's Corner",
       "other": "Other"
     },
     "noItems": "No items available in this category yet.",
@@ -88,6 +90,8 @@
     "categoryClothing": "Clothing",
     "categoryHome": "Home Goods",
     "categoryBooks": "Books",
+    "categoryKids": "Kids",
+    "categoryArt": "Artist's Corner",
     "categoryOther": "Other"
   },
   "detail": {
