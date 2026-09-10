@@ -90,9 +90,9 @@
     "categoryClothing": "لباس",
     "categoryHome": "وسایل خانه",
     "categoryBooks": "کتاب",
-    "categoryOther": "سایر",
     "categoryKids": "کودکان",
-    "categoryArt": "گوشه هنرمندان"
+    "categoryArt": "گوشه هنرمندان",
+    "categoryOther": "سایر"
   },
   "detail": {
     "back": "بازگشت به محصولات",

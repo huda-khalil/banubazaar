@@ -93,7 +93,7 @@ export default function Home() {
       Electronics: t("home.categories.electronics"),
       "Home Goods": t("home.categories.home"),
       Books: t("home.categories.books"),
-      Art: t("home.categories.art"),
+      "Artist's Corner": t("home.categories.art"),
       Other: t("home.categories.other"),
     };
     return map[categoryKey] || categoryKey;
@@ -196,7 +196,7 @@ export default function Home() {
             className={`
       px-4 py-2 rounded-full text-sm font-medium transition
       ${
-        cat === "Art"
+        cat === "Artist's Corner"
           ? selectedCategory === cat
             ? "bg-gradient-to-r from-pink-500 to-purple-500 text-white shadow-lg"
             : "bg-gradient-to-r from-pink-100 to-purple-100 text-pink-700 border border-pink-300 hover:from-pink-200 hover:to-purple-200"
@@ -206,7 +206,7 @@ export default function Home() {
       }
     `}
           >
-            {cat === "Art"
+            {cat === "Artist's Corner"
               ? `🎨 ${getCategoryLabel(cat)}`
               : getCategoryLabel(cat)}
           </button>

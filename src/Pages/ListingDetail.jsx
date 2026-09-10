@@ -94,7 +94,7 @@ export default function ListingDetail() {
       Kids: t("home.categories.kids"),
       "Home Goods": t("home.categories.home"),
       Books: t("home.categories.books"),
-      Art: t("home.categories.art"),
+      "Artist's Corner": t("home.categories.art"),
       Other: t("home.categories.other"),
     };
     return map[categoryKey] || categoryKey;
