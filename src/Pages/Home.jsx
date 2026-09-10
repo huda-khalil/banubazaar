@@ -26,16 +26,20 @@ export default function Home() {
   const location = useLocation();
 
   useEffect(() => {
-    // If we have a saved scroll position, scroll to it
-    if (location.state?.scrollTo) {
-      window.scrollTo({
-        top: location.state.scrollTo,
-        behavior: "instant",
+    // ✅ Only scroll after listings are loaded
+    if (!loading && location.state?.scrollTo) {
+      const targetY = location.state.scrollTo;
+      // Use requestAnimationFrame to ensure DOM is fully rendered
+      requestAnimationFrame(() => {
+        window.scrollTo({
+          top: targetY,
+          behavior: "instant",
+        });
+        // Clear the state so it doesn't re-scroll on refresh
+        window.history.replaceState({}, document.title);
       });
-      // Clear the state so it doesn't re-scroll on refresh
-      window.history.replaceState({}, document.title);
     }
-  }, [location]);
+  }, [loading, location]);
 
   useEffect(() => {
     fetchListings();
