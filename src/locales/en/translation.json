@@ -96,7 +96,7 @@
     "contact": "How can buyers reach you?",
     "contactPlaceholder": "@your_username",
     "contactEmailPlaceholder": "your@email.com",
-    "contactHint": "Choose a platform and enter your username or email.",
+    "contactHint": "For Instagram: @username. For WhatsApp: your phone number (e.g., 0788123456).",
     "categoryOther": "Other"
   },
   "detail": {
@@ -182,7 +182,9 @@
     "about": "About",
     "contact": "Contact",
     "privacy": "Privacy",
-    "terms": "Terms"
+    "terms": "Terms",
+    "partner": "Partner With Us",
+    "builtBy": "Designed & built by"
   },
   "about": {
     "title": "About BanuBazaar",

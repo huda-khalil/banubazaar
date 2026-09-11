@@ -53,10 +53,11 @@ export default function ListingDetail() {
     }
   };
   // ✅ Get the contact URL based on platform
+  // ✅ Get the contact URL based on platform
   const getContactUrl = (stored) => {
     if (!stored) return "#";
 
-    // If it has a platform prefix (e.g., "email:xxx")
+    // If it has a platform prefix
     if (stored.includes(":")) {
       const [platform, handle] = stored.split(":");
 
@@ -65,6 +66,10 @@ export default function ListingDetail() {
           return `https://instagram.com/${handle.replace(/^@/, "")}`;
         case "facebook":
           return `https://facebook.com/${handle.replace(/^@/, "")}`;
+        case "whatsapp":
+          // Clean the number (remove spaces, dashes, +)
+          const cleanNumber = handle.replace(/[^0-9]/g, "");
+          return `https://wa.me/${cleanNumber}`;
         case "email":
           return `mailto:${handle}`;
         default:
@@ -72,15 +77,13 @@ export default function ListingDetail() {
       }
     }
 
-    // Fallback for old listings (no prefix) — assume Instagram
+    // Fallback for old listings
     const clean = stored.replace(/^@/, "").trim();
-    if (clean.includes("@")) {
-      return `mailto:${clean}`; // If it looks like an email
-    }
+    if (clean.includes("@")) return `mailto:${clean}`;
     return `https://instagram.com/${clean}`;
   };
 
-  // ✅ Get the label (Instagram / Facebook / Email)
+  // ✅ Get the label
   const getContactLabel = (stored) => {
     if (!stored) return "Contact";
     if (stored.includes(":")) {
@@ -90,13 +93,14 @@ export default function ListingDetail() {
           return "Instagram";
         case "facebook":
           return "Facebook";
+        case "whatsapp":
+          return "WhatsApp";
         case "email":
           return "Email";
         default:
           return "Instagram";
       }
     }
-    // Fallback
     if (stored.includes("@")) return "Email";
     return "Instagram";
   };
@@ -111,6 +115,8 @@ export default function ListingDetail() {
           return "📷";
         case "facebook":
           return "👤";
+        case "whatsapp":
+          return "💬";
         case "email":
           return "✉️";
         default:

@@ -251,6 +251,7 @@ export default function Submit() {
               >
                 <option value="instagram">📷 Instagram</option>
                 <option value="facebook">👤 Facebook</option>
+                <option value="whatsapp">💬 WhatsApp</option>
                 <option value="email">✉️ Email</option>
               </select>
 
