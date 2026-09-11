@@ -2,6 +2,57 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { supabase } from "../lib/supabase";
 
+// ✅ Resize image to fixed size (800x800)
+const resizeImage = (file) => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = (event) => {
+      const img = new Image();
+      img.src = event.target.result;
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        const SIZE = 800; // 800x800
+        canvas.width = SIZE;
+        canvas.height = SIZE;
+
+        const ctx = canvas.getContext("2d");
+
+        // ✅ Crop to square center
+        const minDim = Math.min(img.width, img.height);
+        const sx = (img.width - minDim) / 2;
+        const sy = (img.height - minDim) / 2;
+
+        ctx.drawImage(
+          img,
+          sx,
+          sy,
+          minDim,
+          minDim, // Source
+          0,
+          0,
+          SIZE,
+          SIZE, // Destination
+        );
+
+        canvas.toBlob(
+          (blob) => {
+            const resizedFile = new File([blob], file.name, {
+              type: "image/jpeg",
+              lastModified: Date.now(),
+            });
+            resolve(resizedFile);
+          },
+          "image/jpeg",
+          0.8,
+        );
+      };
+      img.onerror = reject;
+    };
+    reader.onerror = reject;
+  });
+};
+
 export default function Submit() {
   const { t } = useTranslation();
 
@@ -48,31 +99,39 @@ export default function Submit() {
     const uploadedUrls = [];
 
     for (let file of files) {
-      const fileExt = file.name.split(".").pop();
-      const fileName = `${Date.now()}-${Math.random()}.${fileExt}`;
-      const filePath = `listings/${fileName}`;
+      try {
+        // ✅ Resize image before uploading
+        const resizedFile = await resizeImage(file);
 
-      const { data, error } = await supabase.storage
-        .from("listing-images")
-        .upload(filePath, file);
+        const fileExt = "jpg";
+        const fileName = `${Date.now()}-${Math.random()}.${fileExt}`;
+        const filePath = `listings/${fileName}`;
 
-      if (error) {
-        setError("Failed to upload image: " + error.message);
+        const { data, error } = await supabase.storage
+          .from("listing-images")
+          .upload(filePath, resizedFile);
+
+        if (error) {
+          setError("Failed to upload image: " + error.message);
+          setUploading(false);
+          return;
+        }
+
+        const { data: urlData } = supabase.storage
+          .from("listing-images")
+          .getPublicUrl(filePath);
+
+        uploadedUrls.push(urlData.publicUrl);
+      } catch (err) {
+        setError("Failed to process image: " + err.message);
         setUploading(false);
         return;
       }
-
-      const { data: urlData } = supabase.storage
-        .from("listing-images")
-        .getPublicUrl(filePath);
-
-      uploadedUrls.push(urlData.publicUrl);
     }
 
     setImages(uploadedUrls);
     setUploading(false);
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 

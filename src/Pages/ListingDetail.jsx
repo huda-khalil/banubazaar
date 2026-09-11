@@ -52,53 +52,72 @@ export default function ListingDetail() {
       setLoading(false);
     }
   };
+  // ✅ Get the contact URL based on platform
   const getContactUrl = (stored) => {
     if (!stored) return "#";
 
-    const [platform, handle] = stored.split(":");
+    // If it has a platform prefix (e.g., "email:xxx")
+    if (stored.includes(":")) {
+      const [platform, handle] = stored.split(":");
 
-    switch (platform) {
-      case "instagram":
-        return `https://instagram.com/${handle.replace(/^@/, "")}`;
-      case "facebook":
-        return `https://facebook.com/${handle}`;
-      case "email":
-        return `mailto:${handle}`;
-      default:
-        return `https://instagram.com/${stored.replace(/^@/, "")}`;
+      switch (platform.toLowerCase()) {
+        case "instagram":
+          return `https://instagram.com/${handle.replace(/^@/, "")}`;
+        case "facebook":
+          return `https://facebook.com/${handle.replace(/^@/, "")}`;
+        case "email":
+          return `mailto:${handle}`;
+        default:
+          return `https://instagram.com/${handle.replace(/^@/, "")}`;
+      }
     }
+
+    // Fallback for old listings (no prefix) — assume Instagram
+    const clean = stored.replace(/^@/, "").trim();
+    if (clean.includes("@")) {
+      return `mailto:${clean}`; // If it looks like an email
+    }
+    return `https://instagram.com/${clean}`;
   };
 
+  // ✅ Get the label (Instagram / Facebook / Email)
   const getContactLabel = (stored) => {
     if (!stored) return "Contact";
-    const [platform] = stored.split(":");
-
-    switch (platform) {
-      case "instagram":
-        return "Instagram";
-      case "facebook":
-        return "Facebook";
-      case "email":
-        return "Email";
-      default:
-        return "Contact";
+    if (stored.includes(":")) {
+      const [platform] = stored.split(":");
+      switch (platform.toLowerCase()) {
+        case "instagram":
+          return "Instagram";
+        case "facebook":
+          return "Facebook";
+        case "email":
+          return "Email";
+        default:
+          return "Instagram";
+      }
     }
+    // Fallback
+    if (stored.includes("@")) return "Email";
+    return "Instagram";
   };
 
+  // ✅ Get the icon
   const getContactIcon = (stored) => {
     if (!stored) return "📱";
-    const [platform] = stored.split(":");
-
-    switch (platform) {
-      case "instagram":
-        return "📷";
-      case "facebook":
-        return "👤";
-      case "email":
-        return "✉️";
-      default:
-        return "📱";
+    if (stored.includes(":")) {
+      const [platform] = stored.split(":");
+      switch (platform.toLowerCase()) {
+        case "instagram":
+          return "📷";
+        case "facebook":
+          return "👤";
+        case "email":
+          return "✉️";
+        default:
+          return "📱";
+      }
     }
+    return "📱";
   };
   const nextImage = () => {
     if (!listing?.images?.length) return;
@@ -321,7 +340,9 @@ export default function ListingDetail() {
                   {listing.seller_name}
                 </p>
                 <p className="text-sm text-gray-500">
-                  {listing.seller_phone?.split(":")[1] || listing.seller_phone}
+                  {listing.seller_phone?.includes(":")
+                    ? listing.seller_phone.split(":")[1]
+                    : listing.seller_phone}
                 </p>
               </div>
               <a
