@@ -20,7 +20,7 @@ const CATEGORIES = [
 export default function Home() {
   const [toast, setToast] = useState(null);
   const [confirmModal, setConfirmModal] = useState(null);
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [listings, setListings] = useState([]);
   const [filteredListings, setFilteredListings] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -36,6 +36,7 @@ export default function Home() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
   // ✅ Restore scroll position when coming back
   useEffect(() => {
     if (!loading && location.state?.fromDetail) {
@@ -167,114 +168,120 @@ export default function Home() {
             </p>
           </div>
         </div>
+
         {/* Disclaimer */}
         <div className="text-center text-sm text-gray-500 bg-yellow-50 border border-yellow-200 rounded-lg p-4 mt-4">
           <p className="max-w-3xl mx-auto">{t("home.disclaimer")}</p>
         </div>
       </div>
-      {/* ✅ Start Selling Button — Above Categories
-      <div className="mb-6">
-        <Link
-          to="/submit"
-          className="inline-block bg-pink-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-pink-700 transition shadow-md"
-        >
-          🌟 {t("landing.startSelling")}
-        </Link> 
-      </div>*/}
-      {/* Page Header */}
-      <div className="mb-8">
-        <h2 className="text-3xl font-bold text-gray-800">
-          🛍️ {t("home.title")}
-        </h2>
-      </div>
-      {/* Category Filters */}
-      <div className="flex flex-wrap gap-2 mb-8">
-        {CATEGORIES.map((cat) => (
-          <button
-            key={cat}
-            onClick={() => setSelectedCategory(cat)}
-            className={`
-      px-4 py-2 rounded-full text-sm font-medium transition
-      ${
-        cat === "Artist's Corner"
-          ? selectedCategory === cat
-            ? "bg-gradient-to-r from-pink-500 to-purple-500 text-white shadow-lg"
-            : "bg-gradient-to-r from-pink-100 to-purple-100 text-pink-700 border border-pink-300 hover:from-pink-200 hover:to-purple-200"
-          : selectedCategory === cat
-            ? "bg-pink-600 text-white"
-            : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-      }
-    `}
-          >
-            {cat === "Artist's Corner"
-              ? `🎨 ${getCategoryLabel(cat)}`
-              : getCategoryLabel(cat)}
-          </button>
-        ))}
-      </div>
-      {/* Listings Grid */}
-      {loading ? (
-        <div className="text-center py-12 text-gray-500">
-          {t("home.loading")}
+
+      {/* ✅ Browse Items Card */}
+      <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 md:p-8 mb-12">
+        {/* Header */}
+        <div className="mb-6">
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-800">
+            {t("home.title")}
+          </h2>
+          <div
+            className={`w-full h-px mt-2 ${
+              i18n.language === "fa"
+                ? "bg-gradient-to-l from-pink-500 via-gray-300 to-transparent"
+                : "bg-gradient-to-r from-pink-500 via-gray-300 to-transparent"
+            }`}
+          ></div>
         </div>
-      ) : filteredListings.length === 0 ? (
-        <div className="text-center py-16 bg-white rounded-2xl shadow-sm border border-gray-100">
-          <p className="text-gray-500 text-lg">{t("home.noItems")}</p>
-          <Link
-            to="/submit"
-            className="text-pink-600 hover:underline mt-2 inline-block"
-          >
-            {t("home.beFirst")} 🌸
-          </Link>
-        </div>
-      ) : (
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
-          {filteredListings.map((item) => (
-            <Link
-              to={`/listing/${item.id}`}
-              key={item.id}
-              state={{ fromHome: true }} // ✅ Just a flag, no scroll value
-              className="bg-white rounded-xl shadow-md hover:shadow-xl transition overflow-hidden block hover:scale-[1.02]"
+
+        {/* Category Filters */}
+        <div className="flex flex-wrap gap-2 mb-8">
+          {CATEGORIES.map((cat) => (
+            <button
+              key={cat}
+              onClick={() => setSelectedCategory(cat)}
+              className={`
+                px-4 py-2 rounded-full text-sm font-medium transition
+                ${
+                  cat === "Artist's Corner"
+                    ? selectedCategory === cat
+                      ? "bg-gradient-to-r from-pink-500 to-purple-500 text-white shadow-lg"
+                      : "bg-gradient-to-r from-pink-100 to-purple-100 text-pink-700 border border-pink-300 hover:from-pink-200 hover:to-purple-200"
+                    : selectedCategory === cat
+                      ? "bg-pink-600 text-white"
+                      : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                }
+              `}
             >
-              {/* Sold Badge  */}
-              {item.status === "sold" && (
-                <div className="absolute top-2 right-2 bg-red-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md z-10">
-                  {t("common.sold")}
-                </div>
-              )}
-
-              {item.images?.length > 0 ? (
-                <img
-                  src={item.images[0]}
-                  alt={item.title}
-                  className="w-full h-48 object-cover"
-                />
-              ) : (
-                <div className="w-full h-48 bg-gray-100 flex items-center justify-center text-gray-400 text-sm">
-                  {t("common.noImage")}
-                </div>
-              )}
-
-              <div className="p-4">
-                <h3 className="font-semibold text-lg text-gray-800 truncate">
-                  {item.title}
-                </h3>
-                <p className="text-pink-600 font-bold text-xl mt-1">
-                  {item.price} AFN
-                </p>
-                <div className="flex items-center gap-2 text-sm text-gray-500 mt-2">
-                  <span>{getCategoryLabel(item.category)}</span>
-                  <span>•</span>
-                  <span>{getConditionLabel(item.condition)}</span>
-                </div>
-                <p className="text-sm text-gray-400 mt-1">
-                  📍 {item.seller_location}
-                </p>
-              </div>
-            </Link>
+              {cat === "Artist's Corner"
+                ? `🎨 ${getCategoryLabel(cat)}`
+                : getCategoryLabel(cat)}
+            </button>
           ))}
         </div>
-      )}
+
+        {/* Listings Grid */}
+        {loading ? (
+          <div className="text-center py-12 text-gray-500">
+            {t("home.loading")}
+          </div>
+        ) : filteredListings.length === 0 ? (
+          <div className="text-center py-16 bg-gray-50 rounded-xl border border-gray-100">
+            <p className="text-gray-500 text-lg">{t("home.noItems")}</p>
+            <Link
+              to="/submit"
+              className="text-pink-600 hover:underline mt-2 inline-block"
+            >
+              {t("home.beFirst")} 🌸
+            </Link>
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+            {filteredListings.map((item) => (
+              <Link
+                to={`/listing/${item.id}`}
+                key={item.id}
+                state={{ fromHome: true }}
+                className="relative bg-white rounded-xl shadow-md hover:shadow-xl transition overflow-hidden block hover:scale-[1.02] border border-gray-100"
+              >
+                {/* Sold Badge */}
+                {item.status === "sold" && (
+                  <div className="absolute top-2 right-2 bg-red-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md z-10">
+                    {t("common.sold")}
+                  </div>
+                )}
+
+                {item.images?.length > 0 ? (
+                  <img
+                    src={item.images[0]}
+                    alt={item.title}
+                    className="w-full h-48 object-cover"
+                  />
+                ) : (
+                  <div className="w-full h-48 bg-gray-100 flex items-center justify-center text-gray-400 text-sm">
+                    {t("common.noImage")}
+                  </div>
+                )}
+
+                <div className="p-4">
+                  <h3 className="font-semibold text-lg text-gray-800 truncate">
+                    {item.title}
+                  </h3>
+                  <p className="text-pink-600 font-bold text-xl mt-1">
+                    {item.price} AFN
+                  </p>
+                  <div className="flex items-center gap-2 text-sm text-gray-500 mt-2">
+                    <span>{getCategoryLabel(item.category)}</span>
+                    <span>•</span>
+                    <span>{getConditionLabel(item.condition)}</span>
+                  </div>
+                  <p className="text-sm text-gray-400 mt-1">
+                    📍 {item.seller_location}
+                  </p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        )}
+      </div>
+
       {/* Share BanuBazaar */}
       <div className="mt-12 pt-8 border-t border-gray-200">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
@@ -325,6 +332,7 @@ export default function Home() {
           </div>
         </div>
       </div>
+
       {/* Toast Notification */}
       {toast && (
         <Toast

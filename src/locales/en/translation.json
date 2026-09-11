@@ -8,8 +8,8 @@
   "landing": {
     "welcomeBefore": "Welcome to ",
     "welcomeAfter": "",
-    "tagline": "Turn what you don't use into income, and joy for someone else!",
-    "taglineExtra1": "With every sale, you earn income and gift a smile.",
+    "tagline": "Turn what you don't use into income!",
+    "taglineExtra1": "With every sale, you earn income and gift a smile",
     "taglineExtra2": "Afghan women don't waste — we reimagine.",
     "subtitle": "Kabul's Marketplace for Women",
     "startSelling": "Start Selling",
@@ -92,6 +92,7 @@
     "categoryBooks": "Books",
     "categoryKids": "Kids",
     "categoryArt": "Artist's Corner",
+    "priceHint": "Fair prices attract more buyers..",
     "contact": "How can buyers reach you?",
     "contactPlaceholder": "@your_username",
     "contactEmailPlaceholder": "your@email.com",
