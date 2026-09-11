@@ -97,6 +97,7 @@
     "contactPlaceholder": "@your_username",
     "contactEmailPlaceholder": "your@email.com",
     "contactHint": "For Instagram: @username. For WhatsApp: your phone number (e.g., 0788123456).",
+    "soldNotice": "If your item has been sold, email us at banubazaar@gmail.com to have it removed from the listings.",
     "categoryOther": "Other"
   },
   "detail": {

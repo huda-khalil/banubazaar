@@ -190,6 +190,10 @@ export default function Submit() {
             ✅ {t("submit.success")}
           </h2>
           <p className="text-gray-700 mb-4">{t("submit.successMessage")}</p>
+          {/* ✅ Sold Notice */}
+          <p className="text-xs text-gray-500 italic mb-4 border-t border-green-100 pt-4">
+            {t("submit.soldNotice")}
+          </p>
           <button
             onClick={() => setSubmitted(false)}
             className="text-pink-600 hover:underline font-medium"
