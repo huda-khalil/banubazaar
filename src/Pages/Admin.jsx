@@ -701,13 +701,20 @@ export default function Admin() {
                           <input
                             type="text"
                             inputMode="numeric"
-                            pattern="[0-9]*"
                             value={editForm.price}
                             onChange={(e) => {
-                              const value = e.target.value.replace(
-                                /[^0-9]/g,
-                                "",
+                              const persianDigits = "۰۱۲۳۴۵۶۷۸۹";
+                              const arabicDigits = "٠١٢٣٤٥٦٧٨٩";
+                              let value = e.target.value;
+
+                              value = value.replace(/[۰-۹]/g, (d) =>
+                                persianDigits.indexOf(d),
                               );
+                              value = value.replace(/[٠-٩]/g, (d) =>
+                                arabicDigits.indexOf(d),
+                              );
+                              value = value.replace(/[^0-9]/g, "");
+
                               setEditForm({ ...editForm, price: value });
                             }}
                             className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-pink-500"

@@ -369,11 +369,22 @@ export default function Submit() {
               type="text"
               inputMode="numeric"
               required
-              pattern="[0-9]*"
               value={formData.price}
               onChange={(e) => {
-                // ✅ Only allow numbers
-                const value = e.target.value.replace(/[^0-9]/g, "");
+                // ✅ Convert Persian/Arabic digits to English, then strip non-numeric
+                const persianDigits = "۰۱۲۳۴۵۶۷۸۹";
+                const arabicDigits = "٠١٢٣٤٥٦٧٨٩";
+                let value = e.target.value;
+
+                // Convert Persian digits to English
+                value = value.replace(/[۰-۹]/g, (d) =>
+                  persianDigits.indexOf(d),
+                );
+                // Convert Arabic digits to English
+                value = value.replace(/[٠-٩]/g, (d) => arabicDigits.indexOf(d));
+                // Strip anything that's not a digit
+                value = value.replace(/[^0-9]/g, "");
+
                 setFormData({ ...formData, price: value });
               }}
               className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-pink-500"
