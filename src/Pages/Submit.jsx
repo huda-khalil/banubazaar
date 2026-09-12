@@ -154,6 +154,8 @@ export default function Submit() {
     }
 
     try {
+      const token = crypto.randomUUID().replace(/-/g, "").slice(0, 16);
+
       const { data, error } = await supabase.from("listings").insert([
         {
           seller_name: formData.sellerName,
@@ -166,7 +168,7 @@ export default function Submit() {
           description: formData.description,
           images: images,
           status: "pending",
-          secret_token: crypto.randomUUID().replace(/-/g, "").slice(0, 16), // ✅ Unique token
+          secret_token: token, // ✅ Uses the token defined above
         },
       ]);
 
