@@ -52,8 +52,6 @@ export default function ListingDetail() {
       setLoading(false);
     }
   };
-  // ✅ Get the contact URL based on platform
-  // ✅ Get the contact URL based on platform
   const getContactUrl = (stored) => {
     if (!stored) return "#";
 
@@ -64,15 +62,42 @@ export default function ListingDetail() {
         return `https://instagram.com/${handle?.replace(/^@/, "").trim()}`;
       case "facebook":
         return `https://facebook.com/${handle?.replace(/^@/, "").trim()}`;
-      case "whatsapp":
-        return `https://wa.me/${handle?.replace(/[^0-9]/g, "")}`;
+      case "whatsapp": {
+        // ✅ Convert Persian/Arabic digits to English first
+        const persianDigits = "۰۱۲۳۴۵۶۷۸۹";
+        const arabicDigits = "٠١٢٣٤٥٦٧٨٩";
+        let cleanNumber = handle || "";
+
+        // Convert Persian digits → English
+        cleanNumber = cleanNumber.replace(/[۰-۹]/g, (d) =>
+          persianDigits.indexOf(d),
+        );
+        // Convert Arabic digits → English
+        cleanNumber = cleanNumber.replace(/[٠-٩]/g, (d) =>
+          arabicDigits.indexOf(d),
+        );
+        // Remove anything that's not a digit
+        cleanNumber = cleanNumber.replace(/[^0-9]/g, "");
+
+        // ✅ Remove leading 0 if present
+        if (cleanNumber.startsWith("0")) {
+          cleanNumber = cleanNumber.substring(1);
+        }
+
+        // ✅ If it doesn't start with 93 (Afghanistan), add it
+        if (!cleanNumber.startsWith("93")) {
+          cleanNumber = "93" + cleanNumber;
+        }
+
+        return `https://wa.me/${cleanNumber}`;
+      }
       case "email":
         return `mailto:${handle?.trim()}`;
-      default:
-        // Fallback for old listings (no prefix)
+      default: {
         const clean = stored.replace(/^@/, "").trim();
         if (clean.includes("@")) return `mailto:${clean}`;
         return `https://instagram.com/${clean}`;
+      }
     }
   };
 

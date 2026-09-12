@@ -24,6 +24,11 @@ export default function Admin() {
     seller_phone: "",
     seller_location: "",
   });
+  const [stats, setStats] = useState({
+    uniqueVisitors: 0,
+    totalViews: 0,
+    todayVisitors: 0,
+  });
   const [approvedListings, setApprovedListings] = useState([]);
 
   const CATEGORIES = [

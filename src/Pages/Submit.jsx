@@ -1,6 +1,13 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { supabase } from "../lib/supabase";
+const convertToEnglishDigits = (str) => {
+  const persianDigits = "۰۱۲۳۴۵۶۷۸۹";
+  const arabicDigits = "٠١٢٣٤٥٦٧٨٩";
+  return String(str)
+    .replace(/[۰-۹]/g, (d) => persianDigits.indexOf(d))
+    .replace(/[٠-٩]/g, (d) => arabicDigits.indexOf(d));
+};
 
 // ✅ Resize image to fixed size (800x800)
 const resizeImage = (file) => {
@@ -149,7 +156,7 @@ export default function Submit() {
       const { data, error } = await supabase.from("listings").insert([
         {
           seller_name: formData.sellerName,
-          seller_phone: `${formData.socialPlatform || "instagram"}:${formData.sellerPhone}`, // ✅ MUST include prefix
+          seller_phone: `${formData.socialPlatform || "instagram"}:${convertToEnglishDigits(formData.sellerPhone)}`,
           seller_location: formData.sellerLocation,
           category: formData.category,
           condition: formData.condition,
