@@ -135,7 +135,10 @@
     "reports": "Reports",
     "noReports": "No pending reports.",
     "resolve": "Resolve",
-    "dismiss": "Dismiss"
+    "dismiss": "Dismiss",
+    "uniqueVisitors": "Unique Visitors",
+    "totalViews": "Total Page Views",
+    "todayVisitors": "Today's Visitors"
   },
   "common": {
     "noImage": "No image",

@@ -121,12 +121,48 @@ export default function Admin() {
     }
   };
 
+  const fetchStats = async () => {
+    try {
+      // Total page views
+      const { count: totalViews } = await supabase
+        .from("page_views")
+        .select("*", { count: "exact", head: true });
+
+      // Unique visitors
+      const { data: uniqueData } = await supabase
+        .from("page_views")
+        .select("visitor_id");
+      const uniqueVisitors = new Set(
+        uniqueData?.map((v) => v.visitor_id).filter(Boolean),
+      ).size;
+
+      // Today's visitors
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const { data: todayData } = await supabase
+        .from("page_views")
+        .select("visitor_id")
+        .gte("created_at", today.toISOString());
+      const todayVisitors = new Set(
+        todayData?.map((v) => v.visitor_id).filter(Boolean),
+      ).size;
+
+      setStats({
+        uniqueVisitors,
+        totalViews: totalViews || 0,
+        todayVisitors,
+      });
+    } catch (err) {
+      console.error("Error fetching stats:", err);
+    }
+  };
   // Load all data on mount
   useEffect(() => {
     fetchPendingListings();
     fetchApprovedListings();
     fetchSoldListings();
     fetchReports();
+    fetchStats(); //
   }, []);
 
   // Approve listing
@@ -386,6 +422,56 @@ export default function Admin() {
       </header>
 
       <main className="max-w-7xl mx-auto px-4 py-6">
+        {/* 📊 Stats Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">
+                  👥 {t("admin.uniqueVisitors")}
+                </p>
+                <p className="text-3xl font-bold text-pink-600 mt-1">
+                  {stats.uniqueVisitors}
+                </p>
+              </div>
+              <div className="w-12 h-12 bg-pink-100 rounded-full flex items-center justify-center text-2xl">
+                👥
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">
+                  📊 {t("admin.totalViews")}
+                </p>
+                <p className="text-3xl font-bold text-purple-600 mt-1">
+                  {stats.totalViews}
+                </p>
+              </div>
+              <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center text-2xl">
+                📊
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">
+                  🌟 {t("admin.todayVisitors")}
+                </p>
+                <p className="text-3xl font-bold text-blue-600 mt-1">
+                  {stats.todayVisitors}
+                </p>
+              </div>
+              <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center text-2xl">
+                🌟
+              </div>
+            </div>
+          </div>
+        </div>
         {error && (
           <div className="mb-4 p-4 bg-red-50 text-red-700 rounded-lg border border-red-200">
             {error}

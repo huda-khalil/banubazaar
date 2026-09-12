@@ -135,7 +135,10 @@
     "reports": "گزارش‌ها",
     "noReports": "هیچ گزارش در انتظاری وجود ندارد.",
     "resolve": "بررسی شد",
-    "dismiss": "رد"
+    "dismiss": "رد",
+    "uniqueVisitors": "بازدیدکنندگان یکتا",
+    "totalViews": "کل بازدیدها",
+    "todayVisitors": "بازدیدکنندگان امروز"
   },
   "common": {
     "noImage": "بدون عکس",
