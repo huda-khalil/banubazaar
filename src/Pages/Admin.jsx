@@ -123,33 +123,45 @@ export default function Admin() {
 
   const fetchStats = async () => {
     try {
-      // Total page views
-      const { count: totalViews } = await supabase
+      // ✅ Total page views
+      const { count: totalViews, error: err1 } = await supabase
         .from("page_views")
         .select("*", { count: "exact", head: true });
 
-      // Unique visitors
-      const { data: uniqueData } = await supabase
+      if (err1) console.error("Error fetching total views:", err1);
+
+      // ✅ Unique visitors
+      const { data: uniqueData, error: err2 } = await supabase
         .from("page_views")
         .select("visitor_id");
-      const uniqueVisitors = new Set(
-        uniqueData?.map((v) => v.visitor_id).filter(Boolean),
-      ).size;
 
-      // Today's visitors
+      if (err2) console.error("Error fetching unique visitors:", err2);
+
+      const uniqueVisitors = uniqueData
+        ? new Set(uniqueData.map((v) => v.visitor_id).filter(Boolean)).size
+        : 0;
+
+      // ✅ Today's visitors
       const today = new Date();
       today.setHours(0, 0, 0, 0);
-      const { data: todayData } = await supabase
+
+      const { data: todayData, error: err3 } = await supabase
         .from("page_views")
         .select("visitor_id")
         .gte("created_at", today.toISOString());
-      const todayVisitors = new Set(
-        todayData?.map((v) => v.visitor_id).filter(Boolean),
-      ).size;
+
+      if (err3) console.error("Error fetching today's visitors:", err3);
+
+      const todayVisitors = todayData
+        ? new Set(todayData.map((v) => v.visitor_id).filter(Boolean)).size
+        : 0;
+
+      // ✅ Log for debugging
+      console.log("📊 Stats:", { totalViews, uniqueVisitors, todayVisitors });
 
       setStats({
-        uniqueVisitors,
         totalViews: totalViews || 0,
+        uniqueVisitors,
         todayVisitors,
       });
     } catch (err) {
