@@ -57,73 +57,66 @@ export default function ListingDetail() {
   const getContactUrl = (stored) => {
     if (!stored) return "#";
 
-    // If it has a platform prefix
-    if (stored.includes(":")) {
-      const [platform, handle] = stored.split(":");
+    const [platform, handle] = stored.split(":");
 
-      switch (platform.toLowerCase()) {
-        case "instagram":
-          return `https://instagram.com/${handle.replace(/^@/, "")}`;
-        case "facebook":
-          return `https://facebook.com/${handle.replace(/^@/, "")}`;
-        case "whatsapp":
-          // Clean the number (remove spaces, dashes, +)
-          const cleanNumber = handle.replace(/[^0-9]/g, "");
-          return `https://wa.me/${cleanNumber}`;
-        case "email":
-          return `mailto:${handle}`;
-        default:
-          return `https://instagram.com/${handle.replace(/^@/, "")}`;
-      }
+    switch (platform?.toLowerCase()) {
+      case "instagram":
+        return `https://instagram.com/${handle?.replace(/^@/, "").trim()}`;
+      case "facebook":
+        return `https://facebook.com/${handle?.replace(/^@/, "").trim()}`;
+      case "whatsapp":
+        return `https://wa.me/${handle?.replace(/[^0-9]/g, "")}`;
+      case "email":
+        return `mailto:${handle?.trim()}`;
+      default:
+        // Fallback for old listings (no prefix)
+        const clean = stored.replace(/^@/, "").trim();
+        if (clean.includes("@")) return `mailto:${clean}`;
+        return `https://instagram.com/${clean}`;
     }
-
-    // Fallback for old listings
-    const clean = stored.replace(/^@/, "").trim();
-    if (clean.includes("@")) return `mailto:${clean}`;
-    return `https://instagram.com/${clean}`;
   };
 
-  // ✅ Get the label
+  // ✅ Get the contact label
   const getContactLabel = (stored) => {
     if (!stored) return "Contact";
-    if (stored.includes(":")) {
-      const [platform] = stored.split(":");
-      switch (platform.toLowerCase()) {
-        case "instagram":
-          return "Instagram";
-        case "facebook":
-          return "Facebook";
-        case "whatsapp":
-          return "WhatsApp";
-        case "email":
-          return "Email";
-        default:
-          return "Instagram";
-      }
+
+    const [platform] = stored.split(":");
+
+    switch (platform?.toLowerCase()) {
+      case "instagram":
+        return "Instagram";
+      case "facebook":
+        return "Facebook";
+      case "whatsapp":
+        return "WhatsApp";
+      case "email":
+        return "Email";
+      default:
+        // Fallback for old listings
+        const clean = stored.replace(/^@/, "").trim();
+        if (clean.includes("@")) return "Email";
+        return "Instagram";
     }
-    if (stored.includes("@")) return "Email";
-    return "Instagram";
   };
 
-  // ✅ Get the icon
+  // ✅ Get the contact icon
   const getContactIcon = (stored) => {
     if (!stored) return "📱";
-    if (stored.includes(":")) {
-      const [platform] = stored.split(":");
-      switch (platform.toLowerCase()) {
-        case "instagram":
-          return "📷";
-        case "facebook":
-          return "👤";
-        case "whatsapp":
-          return "💬";
-        case "email":
-          return "✉️";
-        default:
-          return "📱";
-      }
+
+    const [platform] = stored.split(":");
+
+    switch (platform?.toLowerCase()) {
+      case "instagram":
+        return "📷";
+      case "facebook":
+        return "👤";
+      case "whatsapp":
+        return "💬";
+      case "email":
+        return "✉️";
+      default:
+        return "📱";
     }
-    return "📱";
   };
   const nextImage = () => {
     if (!listing?.images?.length) return;

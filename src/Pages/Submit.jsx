@@ -149,7 +149,7 @@ export default function Submit() {
       const { data, error } = await supabase.from("listings").insert([
         {
           seller_name: formData.sellerName,
-          seller_phone: `${formData.socialPlatform}:${formData.sellerPhone}`, // ✅ Save with prefix
+          seller_phone: `${formData.socialPlatform}:${formData.sellerPhone}`, // ✅ Must include prefix
           seller_phone: formData.sellerPhone,
           seller_location: formData.sellerLocation,
           category: formData.category,
