@@ -14,8 +14,11 @@ import ProtectedRoute from "./Components/ProtectedRoute";
 import AdminLogin from "./Pages/AdminLogin";
 import About from "./Pages/About";
 import Terms from "./Pages/Terms";
+import EditListing from "./Pages/EditListing";
 
 function AppContent() {
+  const lastTrackedPath = useRef(null);
+
   const location = useLocation();
   const hideNavbar = location.pathname === "/";
 
@@ -23,6 +26,13 @@ function AppContent() {
   useEffect(() => {
     trackPageView(location.pathname);
   }, [location]);
+  useEffect(() => {
+    // ✅ Only track if the path actually changed
+    if (lastTrackedPath.current !== location.pathname) {
+      lastTrackedPath.current = location.pathname;
+      trackPageView(location.pathname);
+    }
+  }, [location.pathname]);
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
@@ -47,6 +57,7 @@ function AppContent() {
           <Route path="*" element={<Landing />} />
           <Route path="/about" element={<About />} />
           <Route path="/terms" element={<Terms />} />
+          <Route path="/edit/:token" element={<EditListing />} />
         </Routes>
       </main>
       <Footer />

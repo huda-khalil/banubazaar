@@ -11,6 +11,8 @@ const getVisitorId = () => {
 };
 
 export const trackPageView = async (page) => {
+  // ✅ Skip if admin is logged in
+  if (localStorage.getItem("isAdmin") === "true") return;
   try {
     const { error } = await supabase.from("page_views").insert([
       {

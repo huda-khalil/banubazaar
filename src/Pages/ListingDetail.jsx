@@ -52,6 +52,7 @@ export default function ListingDetail() {
       setLoading(false);
     }
   };
+
   const getContactUrl = (stored) => {
     if (!stored) return "#";
 

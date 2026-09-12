@@ -98,6 +98,8 @@
     "contactEmailPlaceholder": "your@email.com",
     "contactHint": "For Instagram: @username. For WhatsApp: your phone number (e.g., 0788123456).",
     "soldNotice": "If your item has been sold, email us at banubazaar@gmail.com to have it removed from the listings.",
+    "saveLink": "Save this link to edit or delete your listing later",
+    "saveLinkDesc": "Keep it private. Anyone with this link can edit your listing.",
     "categoryOther": "Other"
   },
   "detail": {
@@ -211,5 +213,15 @@
     "item4c": "Never share personal information, banking details, or your home/work address",
     "item5": "5. BanuBazaar reserves the right to remove any listing that violates our guidelines.",
     "thanks": "By using BanuBazaar, you agree to these terms."
+  },
+  "editListing": {
+    "title": "Edit Your Listing",
+    "titleLabel": "Title",
+    "priceLabel": "Price (AFN)",
+    "descriptionLabel": "Description",
+    "save": "Save Changes",
+    "markAsSold": "Mark as Sold",
+    "delete": "Delete Listing",
+    "note": "Save this link to edit or delete your listing later."
   }
 }

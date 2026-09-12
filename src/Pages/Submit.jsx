@@ -62,6 +62,7 @@ const resizeImage = (file) => {
 
 export default function Submit() {
   const { t } = useTranslation();
+  const [submittedToken, setSubmittedToken] = useState(null);
 
   // ✅ Categories — now uses t()
   const CATEGORIES = [
@@ -165,11 +166,13 @@ export default function Submit() {
           description: formData.description,
           images: images,
           status: "pending",
+          secret_token: crypto.randomUUID().replace(/-/g, "").slice(0, 16), // ✅ Unique token
         },
       ]);
 
       if (error) throw error;
-
+      // Save the token in state (so the success message can show the link)
+      setSubmittedToken(token);
       setSubmitted(true);
       setFormData({
         sellerName: "",
@@ -196,10 +199,30 @@ export default function Submit() {
             ✅ {t("submit.success")}
           </h2>
           <p className="text-gray-700 mb-4">{t("submit.successMessage")}</p>
-          {/* ✅ Sold Notice */}
-          <p className="text-xs text-gray-500 italic mb-4 border-t border-green-100 pt-4">
-            {t("submit.soldNotice")}
-          </p>
+
+          <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-4 text-left">
+            <p className="text-sm font-medium text-gray-800 mb-2">
+              🔐 {t("submit.saveLink")}
+            </p>
+            <p className="text-xs text-gray-600 mb-2">
+              {t("submit.saveLinkDesc")}
+            </p>
+            <div className="bg-white p-2 rounded border border-gray-200 text-xs break-all">
+              {`${window.location.origin}/edit/${submittedToken}`}
+            </div>
+            <button
+              onClick={() => {
+                navigator.clipboard.writeText(
+                  `${window.location.origin}/edit/${submittedToken}`,
+                );
+                alert("Link copied!");
+              }}
+              className="mt-2 text-xs text-pink-600 hover:underline"
+            >
+              📋 Copy Link
+            </button>
+          </div>
+
           <button
             onClick={() => setSubmitted(false)}
             className="text-pink-600 hover:underline font-medium"
