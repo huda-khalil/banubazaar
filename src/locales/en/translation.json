@@ -222,6 +222,9 @@
     "save": "Save Changes",
     "markAsSold": "Mark as Sold",
     "delete": "Delete Listing",
-    "note": "Save this link to edit or delete your listing later."
+    "note": "Save this link to edit or delete your listing later.",
+    "soldTitle": "This item is marked as sold",
+    "soldMessage": "Congratulations on your sale! This listing is no longer visible on the homepage. You can delete it permanently if you wish.",
+    "deletePermanently": "Delete Permanently"
   }
 }
