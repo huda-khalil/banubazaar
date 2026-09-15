@@ -79,8 +79,8 @@ export default function Submit() {
   const CONDITIONS = [
     { key: "New", label: t("submit.conditionNew") },
     { key: "Like New", label: t("submit.conditionLikeNew") },
+    { key: "Gently Used", label: t("submit.conditionGentlyUsed") },
     { key: "Used", label: t("submit.conditionUsed") },
-    { key: "Damaged", label: t("submit.conditionDamaged") },
   ];
 
   const [formData, setFormData] = useState({
