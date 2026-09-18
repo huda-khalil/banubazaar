@@ -192,21 +192,22 @@ export default function ListingDetail() {
     return map[categoryKey] || categoryKey;
   };
 
-  // Get translated condition name
-  const getConditionLabel = (conditionKey) => {
-    const map = {
-      New: t("submit.conditionNew"),
-      "Like New": t("submit.conditionLikeNew"),
+  // // Get translated condition name
+  // const getConditionLabel = (conditionKey) => {
+  //   const map = {
+  //     New: t("submit.conditionNew"),
+  //     "Like New": t("submit.conditionLikeNew"),
       // ✅ Get translated condition name
-  const getConditionLabel = (conditionKey) => {
-    const map = {
-      New: t("submit.conditionNew"),
-      "Like New": t("submit.conditionLikeNew"),
-      "Gently Used": t("submit.conditionGentlyUsed"), // ✅ Add this
-      Used: t("submit.conditionUsed"),
-    };
-    return map[conditionKey] || conditionKey;
+  / ✅ Get translated condition name
+const getConditionLabel = (conditionKey) => {
+  const map = {
+    New: t("submit.conditionNew"),
+    "Like New": t("submit.conditionLikeNew"),
+    "Gently Used": t("submit.conditionGentlyUsed"),
+    Used: t("submit.conditionUsed"),
   };
+  return map[conditionKey] || conditionKey;
+};
       Used: t("submit.conditionUsed"),
     
     };
