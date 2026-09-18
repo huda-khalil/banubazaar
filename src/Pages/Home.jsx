@@ -291,7 +291,7 @@ const currentListings = filteredListings.slice(indexOfFirst, indexOfLast);
           </div>
         )}
         {/* ✅ Pagination */}
-{totalPages < 1 && (
+{totalPages > 1 && (
   <div className="flex items-center justify-center gap-2 mt-8 flex-wrap">
     <button
       onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
