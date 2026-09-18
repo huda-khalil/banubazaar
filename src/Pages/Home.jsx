@@ -110,8 +110,8 @@ export default function Home() {
     const map = {
       New: t("submit.conditionNew"),
       "Like New": t("submit.conditionLikeNew"),
+      "Gently Used": t("submit.conditionGentlyUsed"), // ✅ Add this
       Used: t("submit.conditionUsed"),
-      Damaged: t("submit.conditionDamaged"),
     };
     return map[conditionKey] || conditionKey;
   };

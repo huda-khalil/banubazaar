@@ -38,7 +38,7 @@ export default function Admin() {
     "Books",
     "Other",
   ];
-  const CONDITIONS = ["New", "Like New", "Used", "Damaged"];
+  const CONDITIONS = ["New", "Like New", "Gently Used", "Used"];
 
   // ✅ Redirect to login if not authenticated
   if (!isAdmin) {
