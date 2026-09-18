@@ -50,7 +50,9 @@
     },
     "disclaimer": " BanuBazaar is a listing platform only. We hold no responsibility for agreements, payments, or deliveries.",
     "previous": "Previous",
-"next": "Next"
+    "next": "Next", 
+    "noArtistItems": "No creations yet. Your drawings, paintings, embroideries, handmade jewelry, and crafts — all belong here. Be the first to share yours. 🎨",
+    "beFirstArtist": "Share Your Art"
   },
 
   "submit": {

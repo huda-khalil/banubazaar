@@ -233,16 +233,34 @@ const currentListings = filteredListings.slice(indexOfFirst, indexOfLast);
             {t("home.loading")}
           </div>
         ) : filteredListings.length === 0 ? (
-          <div className="text-center py-16 bg-gray-50 rounded-xl border border-gray-100">
-            <p className="text-gray-500 text-lg">{t("home.noItems")}</p>
-            <Link
-              to="/submit"
-              className="text-pink-600 hover:underline mt-2 inline-block"
-            >
-              {t("home.beFirst")} 🌸
-            </Link>
-          </div>
-        ) : (
+  <div className="text-center py-16 bg-gradient-to-br from-pink-50 to-purple-50 rounded-xl border border-pink-100">
+    {/* ✅ Special message for Artist's Corner */}
+    {selectedCategory === "Artist's Corner" ? (
+      <div className="max-w-md mx-auto">
+        <div className="text-5xl mb-4">🎨</div>
+        <p className="text-gray-700 text-base leading-relaxed mb-6">
+          {t("home.noArtistItems")}
+        </p>
+        <Link
+          to="/submit"
+          className="inline-block bg-gradient-to-r from-pink-500 to-purple-500 text-white px-6 py-2.5 rounded-lg hover:opacity-90 transition font-medium shadow-md"
+        >
+          ✨ {t("home.beFirstArtist")}
+        </Link>
+      </div>
+    ) : (
+      <>
+        <p className="text-gray-500 text-lg">{t("home.noItems")}</p>
+        <Link
+          to="/submit"
+          className="text-pink-600 hover:underline mt-2 inline-block"
+        >
+          {t("home.beFirst")} 🌸
+        </Link>
+      </>
+    )}
+  </div>
+) : (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
             {currentListings.map((item) => (
               <Link
