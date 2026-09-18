@@ -26,6 +26,8 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState("All");
   const location = useLocation();
+  const [currentPage, setCurrentPage] = useState(1);
+  const ITEMS_PER_PAGE = 24;
 
   // ✅ Save scroll position continuously as user scrolls
   useEffect(() => {
@@ -65,6 +67,9 @@ export default function Home() {
       );
     }
   }, [selectedCategory, listings]);
+  useEffect(() => {
+  setCurrentPage(1);
+}, [selectedCategory]);
 
   const fetchListings = async () => {
     setLoading(true);
@@ -110,6 +115,11 @@ export default function Home() {
     };
     return map[conditionKey] || conditionKey;
   };
+  // ✅ Pagination calculations
+const totalPages = Math.ceil(filteredListings.length / ITEMS_PER_PAGE);
+const indexOfLast = currentPage * ITEMS_PER_PAGE;
+const indexOfFirst = indexOfLast - ITEMS_PER_PAGE;
+const currentListings = filteredListings.slice(indexOfFirst, indexOfLast);
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
@@ -234,7 +244,7 @@ export default function Home() {
           </div>
         ) : (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
-            {filteredListings.map((item) => (
+            {currentListings.map((item) => (
               <Link
                 to={`/listing/${item.id}`}
                 key={item.id}
@@ -280,6 +290,40 @@ export default function Home() {
             ))}
           </div>
         )}
+        {/* ✅ Pagination */}
+{totalPages < 1 && (
+  <div className="flex items-center justify-center gap-2 mt-8 flex-wrap">
+    <button
+      onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+      disabled={currentPage === 1}
+      className="px-4 py-2 rounded-lg text-sm font-medium bg-gray-200 text-gray-700 hover:bg-gray-300 transition disabled:opacity-50 disabled:cursor-not-allowed"
+    >
+      {i18n.language === "fa" ? "→" : "←"} {t("home.previous")}
+    </button>
+
+    {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+      <button
+        key={page}
+        onClick={() => setCurrentPage(page)}
+        className={`w-10 h-10 rounded-lg text-sm font-medium transition ${
+          currentPage === page
+            ? "bg-pink-600 text-white"
+            : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+        }`}
+      >
+        {page}
+      </button>
+    ))}
+
+    <button
+      onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+      disabled={currentPage === totalPages}
+      className="px-4 py-2 rounded-lg text-sm font-medium bg-gray-200 text-gray-700 hover:bg-gray-300 transition disabled:opacity-50 disabled:cursor-not-allowed"
+    >
+      {t("home.next")} {i18n.language === "fa" ? "←" : "→"}
+    </button>
+  </div>
+)}
       </div>
 
       {/* Share BanuBazaar */}

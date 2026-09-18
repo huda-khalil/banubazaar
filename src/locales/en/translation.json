@@ -48,7 +48,9 @@
         "warning": "⚠️ Never share personal information, banking details, or your home/work address"
       }
     },
-    "disclaimer": " BanuBazaar is a listing platform only. We hold no responsibility for agreements, payments, or deliveries."
+    "disclaimer": " BanuBazaar is a listing platform only. We hold no responsibility for agreements, payments, or deliveries.",
+    "previous": "Previous",
+"next": "Next"
   },
 
   "submit": {

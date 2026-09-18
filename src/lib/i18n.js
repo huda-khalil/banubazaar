@@ -15,7 +15,7 @@ const resources = {
 };
 
 // Get the saved language from localStorage (if any)
-const savedLanguage = localStorage.getItem("i18nextLng") || "en";
+const savedLanguage = localStorage.getItem('i18nextLng') || 'fa'; //  Default persian
 
 // Set the dir IMMEDIATELY before i18n initializes
 if (savedLanguage === "fa") {
@@ -29,7 +29,7 @@ i18n
   .use(initReactI18next)
   .init({
     resources,
-    fallbackLng: "en",
+    fallbackLng: 'fa',
     lng: savedLanguage,
     interpolation: {
       escapeValue: false,
