@@ -17,15 +17,17 @@ export default function ListingDetail() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [showReportModal, setShowReportModal] = useState(false);
   const location = useLocation();
-  const navigate = useNavigate(); // ✅ Add this
+  const navigate = useNavigate();
 
   // Check if we came from homepage
   const fromHome = location.state?.fromHome || false;
   const savedScrollY = location.state?.scrollY || 0;
-  //  Handle back button
+
+  // Handle back button
   const handleBack = () => {
-    navigate("/home", { state: { fromDetail: true } }); // ✅ Just a flag
+    navigate("/home", { state: { fromDetail: true } });
   };
+
   useEffect(() => {
     // Scroll to top when detail page loads
     window.scrollTo(0, 0);
@@ -64,28 +66,22 @@ export default function ListingDetail() {
       case "facebook":
         return `https://facebook.com/${handle?.replace(/^@/, "").trim()}`;
       case "whatsapp": {
-        // ✅ Convert Persian/Arabic digits to English first
         const persianDigits = "۰۱۲۳۴۵۶۷۸۹";
         const arabicDigits = "٠١٢٣٤٥٦٧٨٩";
         let cleanNumber = handle || "";
 
-        // Convert Persian digits → English
         cleanNumber = cleanNumber.replace(/[۰-۹]/g, (d) =>
           persianDigits.indexOf(d),
         );
-        // Convert Arabic digits → English
         cleanNumber = cleanNumber.replace(/[٠-٩]/g, (d) =>
           arabicDigits.indexOf(d),
         );
-        // Remove anything that's not a digit
         cleanNumber = cleanNumber.replace(/[^0-9]/g, "");
 
-        // ✅ Remove leading 0 if present
         if (cleanNumber.startsWith("0")) {
           cleanNumber = cleanNumber.substring(1);
         }
 
-        // ✅ If it doesn't start with 93 (Afghanistan), add it
         if (!cleanNumber.startsWith("93")) {
           cleanNumber = "93" + cleanNumber;
         }
@@ -117,11 +113,11 @@ export default function ListingDetail() {
         return "WhatsApp";
       case "email":
         return "Email";
-      default:
-        // Fallback for old listings
+      default: {
         const clean = stored.replace(/^@/, "").trim();
         if (clean.includes("@")) return "Email";
         return "Instagram";
+      }
     }
   };
 
@@ -144,10 +140,10 @@ export default function ListingDetail() {
         return "📱";
     }
   };
+
   const nextImage = () => {
     if (!listing?.images?.length) return;
 
-    // In RTL, "next" visually means going left, so we go backward
     const isRTL = document.documentElement.dir === "rtl";
     const direction = isRTL ? -1 : 1;
 
@@ -164,7 +160,6 @@ export default function ListingDetail() {
   const prevImage = () => {
     if (!listing?.images?.length) return;
 
-    // In RTL, "previous" visually means going right, so we go forward
     const isRTL = document.documentElement.dir === "rtl";
     const direction = isRTL ? 1 : -1;
 
@@ -178,7 +173,7 @@ export default function ListingDetail() {
     }
   };
 
-  // Get translated category name
+  // ✅ Get translated category name
   const getCategoryLabel = (categoryKey) => {
     const map = {
       Electronics: t("home.categories.electronics"),
@@ -192,24 +187,13 @@ export default function ListingDetail() {
     return map[categoryKey] || categoryKey;
   };
 
-  // // Get translated condition name
-  // const getConditionLabel = (conditionKey) => {
-  //   const map = {
-  //     New: t("submit.conditionNew"),
-  //     "Like New": t("submit.conditionLikeNew"),
-      // ✅ Get translated condition name
-  / ✅ Get translated condition name
-const getConditionLabel = (conditionKey) => {
-  const map = {
-    New: t("submit.conditionNew"),
-    "Like New": t("submit.conditionLikeNew"),
-    "Gently Used": t("submit.conditionGentlyUsed"),
-    Used: t("submit.conditionUsed"),
-  };
-  return map[conditionKey] || conditionKey;
-};
+  // ✅ Get translated condition name
+  const getConditionLabel = (conditionKey) => {
+    const map = {
+      New: t("submit.conditionNew"),
+      "Like New": t("submit.conditionLikeNew"),
+      "Gently Used": t("submit.conditionGentlyUsed"),
       Used: t("submit.conditionUsed"),
-    
     };
     return map[conditionKey] || conditionKey;
   };
@@ -274,12 +258,10 @@ const getConditionLabel = (conditionKey) => {
 
               {images.length > 1 && (
                 <>
-                  {/* ✅ Arrows — Centered with inset-0 */}
                   <div
                     className="absolute inset-0 flex items-center justify-between px-4 pointer-events-none"
                     dir="ltr"
                   >
-                    {/* Left Arrow — ALWAYS goes previous */}
                     <button
                       onClick={prevImage}
                       className="pointer-events-auto text-pink-400 text-5xl hover:text-pink-300 transition drop-shadow-lg z-10"
@@ -288,7 +270,6 @@ const getConditionLabel = (conditionKey) => {
                       ‹
                     </button>
 
-                    {/* Right Arrow — ALWAYS goes next */}
                     <button
                       onClick={nextImage}
                       className="pointer-events-auto text-pink-400 text-5xl hover:text-pink-300 transition drop-shadow-lg z-10"
@@ -298,12 +279,10 @@ const getConditionLabel = (conditionKey) => {
                     </button>
                   </div>
 
-                  {/* Image Counter */}
                   <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/60 text-white text-sm px-3 py-1 rounded-full">
                     {currentImageIndex + 1} / {images.length}
                   </div>
 
-                  {/* Thumbnails */}
                   <div className="flex gap-2 mt-4 justify-center overflow-x-auto py-2">
                     {images.map((img, idx) => (
                       <button
@@ -344,7 +323,6 @@ const getConditionLabel = (conditionKey) => {
             </span>
           </div>
 
-          {/* Category & Condition — Translated */}
           <div className="flex flex-wrap gap-2 mb-4">
             <span className="bg-gray-100 px-3 py-1 rounded-full text-sm text-gray-700">
               {getCategoryLabel(listing.category)}
@@ -392,14 +370,12 @@ const getConditionLabel = (conditionKey) => {
               </a>
             </div>
 
-            {/* Report Button */}
             <button
               onClick={() => setShowReportModal(true)}
               className="text-sm text-red-500 hover:text-red-700 transition flex items-center gap-1 mt-4"
             >
               🚩 {t("detail.report")}
             </button>
-            {/* Share Buttons */}
             <ShareButtons
               title={listing.title}
               url={window.location.href}
@@ -416,7 +392,6 @@ const getConditionLabel = (conditionKey) => {
         </div>
       </div>
 
-      {/* Report Modal */}
       {showReportModal && (
         <ReportModal
           listingId={listing.id}
@@ -424,7 +399,6 @@ const getConditionLabel = (conditionKey) => {
           onSuccess={() => {}}
         />
       )}
-      {/* Toast Notification */}
       {toast && (
         <Toast
           message={toast.message}
