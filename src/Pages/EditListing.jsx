@@ -205,6 +205,22 @@ export default function EditListing() {
             className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-pink-500"
           />
         </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            {t("admin.discount")} (%)
+          </label>
+          <input
+            type="text"
+            inputMode="numeric"
+            value={editForm.discount || 0}
+            onChange={(e) => {
+              const value = e.target.value.replace(/[^0-9]/g, "");
+              setEditForm({ ...editForm, discount: value });
+            }}
+            className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-pink-500"
+            placeholder="0"
+          />
+        </div>
 
         {/* Description */}
         <div>

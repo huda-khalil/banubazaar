@@ -68,8 +68,8 @@ export default function Home() {
     }
   }, [selectedCategory, listings]);
   useEffect(() => {
-  setCurrentPage(1);
-}, [selectedCategory]);
+    setCurrentPage(1);
+  }, [selectedCategory]);
 
   const fetchListings = async () => {
     setLoading(true);
@@ -116,10 +116,10 @@ export default function Home() {
     return map[conditionKey] || conditionKey;
   };
   // ✅ Pagination calculations
-const totalPages = Math.ceil(filteredListings.length / ITEMS_PER_PAGE);
-const indexOfLast = currentPage * ITEMS_PER_PAGE;
-const indexOfFirst = indexOfLast - ITEMS_PER_PAGE;
-const currentListings = filteredListings.slice(indexOfFirst, indexOfLast);
+  const totalPages = Math.ceil(filteredListings.length / ITEMS_PER_PAGE);
+  const indexOfLast = currentPage * ITEMS_PER_PAGE;
+  const indexOfFirst = indexOfLast - ITEMS_PER_PAGE;
+  const currentListings = filteredListings.slice(indexOfFirst, indexOfLast);
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
@@ -233,115 +233,172 @@ const currentListings = filteredListings.slice(indexOfFirst, indexOfLast);
             {t("home.loading")}
           </div>
         ) : filteredListings.length === 0 ? (
-  <div className="text-center py-16 bg-gradient-to-br from-pink-50 to-purple-50 rounded-xl border border-pink-100">
-    {/* ✅ Special message for Artist's Corner */}
-    {selectedCategory === "Artist's Corner" ? (
-      <div className="max-w-md mx-auto">
-        <div className="text-5xl mb-4">🎨</div>
-        <p className="text-gray-700 text-base leading-relaxed mb-6">
-          {t("home.noArtistItems")}
-        </p>
-        <Link
-          to="/submit"
-          className="inline-block bg-gradient-to-r from-pink-500 to-purple-500 text-white px-6 py-2.5 rounded-lg hover:opacity-90 transition font-medium shadow-md"
-        >
-          ✨ {t("home.beFirstArtist")}
-        </Link>
-      </div>
-    ) : (
-      <>
-        <p className="text-gray-500 text-lg">{t("home.noItems")}</p>
-        <Link
-          to="/submit"
-          className="text-pink-600 hover:underline mt-2 inline-block"
-        >
-          {t("home.beFirst")} 🌸
-        </Link>
-      </>
-    )}
-  </div>
-) : (
+          <div className="text-center py-16 bg-gradient-to-br from-pink-50 to-purple-50 rounded-xl border border-pink-100">
+            {/* ✅ Special message for Artist's Corner */}
+            {selectedCategory === "Artist's Corner" ? (
+              <div className="max-w-md mx-auto">
+                <div className="text-5xl mb-4">🎨</div>
+                <p className="text-gray-700 text-base leading-relaxed mb-6">
+                  {t("home.noArtistItems")}
+                </p>
+                <Link
+                  to="/submit"
+                  className="inline-block bg-gradient-to-r from-pink-500 to-purple-500 text-white px-6 py-2.5 rounded-lg hover:opacity-90 transition font-medium shadow-md"
+                >
+                  ✨ {t("home.beFirstArtist")}
+                </Link>
+              </div>
+            ) : (
+              <>
+                <p className="text-gray-500 text-lg">{t("home.noItems")}</p>
+                <Link
+                  to="/submit"
+                  className="text-pink-600 hover:underline mt-2 inline-block"
+                >
+                  {t("home.beFirst")} 🌸
+                </Link>
+              </>
+            )}
+          </div>
+        ) : (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
-            {currentListings.map((item) => (
-              <Link
-                to={`/listing/${item.id}`}
-                key={item.id}
-                state={{ fromHome: true }}
-                className="relative bg-white rounded-xl shadow-md hover:shadow-xl transition overflow-hidden block hover:scale-[1.02] border border-gray-100"
-              >
-                {/* Sold Badge */}
-                {item.status === "sold" && (
+            {currentListings.map((item) =>
+              item.status === "sold" ? (
+                // ✅ Sold listing — unclickable div
+                <div
+                  key={item.id}
+                  className="relative bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 opacity-75 cursor-not-allowed"
+                >
+                  {/* Sold Badge */}
                   <div className="absolute top-2 right-2 bg-red-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md z-10">
                     {t("common.sold")}
                   </div>
-                )}
 
-                {item.images?.length > 0 ? (
-                  <img
-                    src={item.images[0]}
-                    alt={item.title}
-                    className="w-full h-48 object-cover"
-                  />
-                ) : (
-                  <div className="w-full h-48 bg-gray-100 flex items-center justify-center text-gray-400 text-sm">
-                    {t("common.noImage")}
-                  </div>
-                )}
+                  {item.images?.length > 0 ? (
+                    <img
+                      src={item.images[0]}
+                      alt={item.title}
+                      className="w-full h-48 object-cover grayscale"
+                    />
+                  ) : (
+                    <div className="w-full h-48 bg-gray-100 flex items-center justify-center text-gray-400 text-sm">
+                      {t("common.noImage")}
+                    </div>
+                  )}
 
-                <div className="p-4">
-                  <h3 className="font-semibold text-lg text-gray-800 truncate">
-                    {item.title}
-                  </h3>
-                  <p className="text-pink-600 font-bold text-xl mt-1">
-                    {item.price} AFN
-                  </p>
-                  <div className="flex items-center gap-2 text-sm text-gray-500 mt-2">
-                    <span>{getCategoryLabel(item.category)}</span>
-                    <span>•</span>
-                    <span>{getConditionLabel(item.condition)}</span>
+                  <div className="p-4">
+                    <h3 className="font-semibold text-lg text-gray-800 truncate">
+                      {item.title}
+                    </h3>
+                    <p className="text-gray-500 font-bold text-xl mt-1 line-through">
+                      {item.price} AFN
+                    </p>
+                    <div className="flex items-center gap-2 text-sm text-gray-500 mt-2">
+                      <span>{getCategoryLabel(item.category)}</span>
+                      <span>•</span>
+                      <span>{getConditionLabel(item.condition)}</span>
+                    </div>
+                    <p className="text-sm text-gray-400 mt-1">
+                      📍 {item.seller_location}
+                    </p>
                   </div>
-                  <p className="text-sm text-gray-400 mt-1">
-                    📍 {item.seller_location}
-                  </p>
                 </div>
-              </Link>
-            ))}
+              ) : (
+                // ✅ Active listing — clickable Link
+                <Link
+                  to={`/listing/${item.id}`}
+                  key={item.id}
+                  state={{ fromHome: true }}
+                  className="relative bg-white rounded-xl shadow-md hover:shadow-xl transition overflow-hidden block hover:scale-[1.02] border border-gray-100"
+                >
+                  {/* Discount Badge */}
+                  {item.discount > 0 && (
+                    <div className="absolute top-2 left-2 bg-gradient-to-r from-pink-500 to-purple-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md z-10">
+                      🔥 {item.discount}% {t("common.off")}
+                    </div>
+                  )}
+
+                  {item.images?.length > 0 ? (
+                    <img
+                      src={item.images[0]}
+                      alt={item.title}
+                      className="w-full h-48 object-cover"
+                    />
+                  ) : (
+                    <div className="w-full h-48 bg-gray-100 flex items-center justify-center text-gray-400 text-sm">
+                      {t("common.noImage")}
+                    </div>
+                  )}
+
+                  <div className="p-4">
+                    <h3 className="font-semibold text-lg text-gray-800 truncate">
+                      {item.title}
+                    </h3>
+                    <div className="flex items-center gap-2 mt-1">
+                      {item.discount > 0 ? (
+                        <>
+                          <p className="text-pink-600 font-bold text-xl">
+                            {Math.round(item.price * (1 - item.discount / 100))}{" "}
+                            AFN
+                          </p>
+                          <p className="text-gray-400 text-sm line-through">
+                            {item.price} AFN
+                          </p>
+                        </>
+                      ) : (
+                        <p className="text-pink-600 font-bold text-xl">
+                          {item.price} AFN
+                        </p>
+                      )}
+                    </div>
+                    <div className="flex items-center gap-2 text-sm text-gray-500 mt-2">
+                      <span>{getCategoryLabel(item.category)}</span>
+                      <span>•</span>
+                      <span>{getConditionLabel(item.condition)}</span>
+                    </div>
+                    <p className="text-sm text-gray-400 mt-1">
+                      📍 {item.seller_location}
+                    </p>
+                  </div>
+                </Link>
+              ),
+            )}
           </div>
         )}
         {/* ✅ Pagination */}
-{totalPages > 1 && (
-  <div className="flex items-center justify-center gap-2 mt-8 flex-wrap">
-    <button
-      onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-      disabled={currentPage === 1}
-      className="px-4 py-2 rounded-lg text-sm font-medium bg-gray-200 text-gray-700 hover:bg-gray-300 transition disabled:opacity-50 disabled:cursor-not-allowed"
-    >
-      {i18n.language === "fa" ? "→" : "←"} {t("home.previous")}
-    </button>
+        {totalPages > 1 && (
+          <div className="flex items-center justify-center gap-2 mt-8 flex-wrap">
+            <button
+              onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+              disabled={currentPage === 1}
+              className="px-4 py-2 rounded-lg text-sm font-medium bg-gray-200 text-gray-700 hover:bg-gray-300 transition disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {i18n.language === "fa" ? "→" : "←"} {t("home.previous")}
+            </button>
 
-    {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-      <button
-        key={page}
-        onClick={() => setCurrentPage(page)}
-        className={`w-10 h-10 rounded-lg text-sm font-medium transition ${
-          currentPage === page
-            ? "bg-pink-600 text-white"
-            : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-        }`}
-      >
-        {page}
-      </button>
-    ))}
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+              <button
+                key={page}
+                onClick={() => setCurrentPage(page)}
+                className={`w-10 h-10 rounded-lg text-sm font-medium transition ${
+                  currentPage === page
+                    ? "bg-pink-600 text-white"
+                    : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                }`}
+              >
+                {page}
+              </button>
+            ))}
 
-    <button
-      onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
-      disabled={currentPage === totalPages}
-      className="px-4 py-2 rounded-lg text-sm font-medium bg-gray-200 text-gray-700 hover:bg-gray-300 transition disabled:opacity-50 disabled:cursor-not-allowed"
-    >
-      {t("home.next")} {i18n.language === "fa" ? "←" : "→"}
-    </button>
-  </div>
-)}
+            <button
+              onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+              disabled={currentPage === totalPages}
+              className="px-4 py-2 rounded-lg text-sm font-medium bg-gray-200 text-gray-700 hover:bg-gray-300 transition disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {t("home.next")} {i18n.language === "fa" ? "←" : "→"}
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Share BanuBazaar */}

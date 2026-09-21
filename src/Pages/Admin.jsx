@@ -355,6 +355,7 @@ export default function Admin() {
       seller_name: listing.seller_name || "",
       seller_phone: listing.seller_phone || "",
       seller_location: listing.seller_location || "",
+      discount: listing.discount || 0,
     });
   };
 
@@ -387,6 +388,7 @@ export default function Admin() {
           seller_name: editForm.seller_name,
           seller_phone: editForm.seller_phone,
           seller_location: editForm.seller_location,
+          discount: parseInt(editForm.discount) || 0,
           updated_at: new Date().toISOString(),
         })
         .eq("id", id);
@@ -396,6 +398,7 @@ export default function Admin() {
       setSuccess("✅ Listing updated successfully!");
       setEditingListing(null);
       fetchPendingListings();
+      fetchApprovedListings();
       setTimeout(() => setSuccess(""), 3000);
     } catch (err) {
       setError("Failed to update: " + err.message);

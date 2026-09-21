@@ -88,7 +88,7 @@
     "terms": "با ثبت، با قوانین ما موافقت می‌کنید. تمام محصولات قبل از انتشار بررسی می‌شوند.",
     "conditionNew": "نو",
     "conditionLikeNew": "نو مانند",
-"conditionGentlyUsed": "استفاده شده تمیز",
+    "conditionGentlyUsed": "استفاده شده تمیز",
     "conditionUsed": "استفاده شده",
     "categoryElectronics": "الکترونیک",
     "categoryClothing": "لباس",
@@ -144,14 +144,16 @@
     "dismiss": "رد",
     "uniqueVisitors": "بازدیدکنندگان یکتا",
     "totalViews": "کل بازدیدها",
-    "todayVisitors": "بازدیدکنندگان امروز"
+    "todayVisitors": "بازدیدکنندگان امروز",
+    "discount": "تخفیف"
   },
   "common": {
     "noImage": "بدون عکس",
     "language": "زبان",
     "english": "انگلیسی",
     "dari": "دری",
-    "sold": "فروخته شد"
+    "sold": "فروخته شد",
+    "off": "تخفیف"
   },
   "report": {
     "title": "گزارش آگهی",

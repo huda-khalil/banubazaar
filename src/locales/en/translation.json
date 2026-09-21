@@ -50,7 +50,7 @@
     },
     "disclaimer": " BanuBazaar is a listing platform only. We hold no responsibility for agreements, payments, or deliveries.",
     "previous": "Previous",
-    "next": "Next", 
+    "next": "Next",
     "noArtistItems": "No creations yet. Your drawings, paintings, embroideries, handmade jewelry, and crafts — all belong here. Be the first to share yours. 🎨",
     "beFirstArtist": "Share Your Art"
   },
@@ -88,7 +88,7 @@
     "terms": "By submitting, you agree to our terms. All listings are reviewed before publishing.",
     "conditionNew": "New",
     "conditionLikeNew": "Like New",
-"conditionGentlyUsed": "Gently Used",
+    "conditionGentlyUsed": "Gently Used",
     "conditionUsed": "Used",
     "categoryElectronics": "Electronics",
     "categoryClothing": "Clothing",
@@ -144,14 +144,16 @@
     "dismiss": "Dismiss",
     "uniqueVisitors": "Unique Visitors",
     "totalViews": "Total Page Views",
-    "todayVisitors": "Today's Visitors"
+    "todayVisitors": "Today's Visitors",
+    "discount": "Discount"
   },
   "common": {
     "noImage": "No image",
     "language": "Language",
     "english": "English",
     "dari": "Dari",
-    "sold": "Sold"
+    "sold": "Sold",
+    "off": "OFF"
   },
   "report": {
     "title": "Report Listing",
