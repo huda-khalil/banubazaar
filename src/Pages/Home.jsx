@@ -77,7 +77,7 @@ export default function Home() {
       const { data, error } = await supabase
         .from("listings")
         .select("*")
-        .eq("status", "approved")
+        .in("status", ["approved", "sold"])
         .order("created_at", { ascending: false });
 
       if (error) throw error;
