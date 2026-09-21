@@ -130,10 +130,11 @@ export default function Admin() {
 
       if (err1) console.error("Error fetching total views:", err1);
 
-      // ✅ Unique visitors
+      // ✅ Unique visitors — increased limit
       const { data: uniqueData, error: err2 } = await supabase
         .from("page_views")
-        .select("visitor_id");
+        .select("visitor_id")
+        .limit(10000);
 
       if (err2) console.error("Error fetching unique visitors:", err2);
 
@@ -148,7 +149,8 @@ export default function Admin() {
       const { data: todayData, error: err3 } = await supabase
         .from("page_views")
         .select("visitor_id")
-        .gte("created_at", today.toISOString());
+        .gte("created_at", today.toISOString())
+        .limit(10000);
 
       if (err3) console.error("Error fetching today's visitors:", err3);
 
