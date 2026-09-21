@@ -318,9 +318,26 @@ export default function ListingDetail() {
             <h1 className="text-2xl md:text-3xl font-bold text-gray-800">
               {listing.title}
             </h1>
-            <span className="text-2xl font-bold text-pink-600 whitespace-nowrap">
-              {listing.price} AFN
-            </span>
+            <div className="flex items-center gap-3 whitespace-nowrap">
+              {listing.discount > 0 ? (
+                <>
+                  <span className="text-2xl font-bold text-pink-600">
+                    {Math.round(listing.price * (1 - listing.discount / 100))}{" "}
+                    AFN
+                  </span>
+                  <span className="text-lg text-gray-400 line-through">
+                    {listing.price} AFN
+                  </span>
+                  <span className="bg-gradient-to-r from-pink-500 to-purple-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+                    🔥 {listing.discount}% {t("common.off")}
+                  </span>
+                </>
+              ) : (
+                <span className="text-2xl font-bold text-pink-600">
+                  {listing.price} AFN
+                </span>
+              )}
+            </div>
           </div>
 
           <div className="flex flex-wrap gap-2 mb-4">
