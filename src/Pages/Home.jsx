@@ -267,7 +267,7 @@ export default function Home() {
                 // ✅ Sold listing — unclickable div
                 <div
                   key={item.id}
-                  className="relative bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 opacity-75 cursor-not-allowed"
+                  className="relative bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 opacity-90 cursor-not-allowed"
                 >
                   {/* Sold Badge */}
                   <div className="absolute top-2 right-2 bg-red-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md z-10">
@@ -278,7 +278,7 @@ export default function Home() {
                     <img
                       src={item.images[0]}
                       alt={item.title}
-                      className="w-full h-48 object-cover grayscale"
+                      className="w-full h-48 object-cover opacity-60"
                     />
                   ) : (
                     <div className="w-full h-48 bg-gray-100 flex items-center justify-center text-gray-400 text-sm">
