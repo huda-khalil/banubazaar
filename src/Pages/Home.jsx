@@ -314,7 +314,7 @@ export default function Home() {
                   {/* Discount Badge */}
                   {item.discount > 0 && (
                     <div className="absolute top-2 left-2 bg-gradient-to-r from-pink-500 to-purple-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md z-10">
-                      🔥 {item.discount}% {t("common.off")}
+                      🔘 {item.discount}% {t("common.off")}
                     </div>
                   )}
 
