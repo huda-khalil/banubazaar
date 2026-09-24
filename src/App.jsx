@@ -39,11 +39,11 @@ function AppContent() {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-pink-50 to-white px-4">
         <div className="max-w-md text-center">
-          <div className="text-6xl mb-6">💟</div>
+          <div className="text-6xl mb-6">🎀</div>
           <h1 className="text-3xl font-bold text-pink-600 mb-3">BanuBazaar</h1>
           <p className="text-lg text-gray-700 mb-2">We'll be back soon</p>
           <p className="text-sm text-gray-500">
-            The site is currently under maintenance.
+            The site is currently under maintenance
           </p>
           <div className="mt-8 text-xs text-gray-400">
             Thank you for your patience
